@@ -1,15 +1,31 @@
 #include <iostream>
 #include <ctime>
 #include <fstream>
-#include <cstdlib>
 #include "Pred.cpp"
+#include "papi.h"
+#include <stdlib.h>
+#include <memory.h>
+
 
 using namespace std;
 
 const int N=10000000;
 const int MAX=10100000;
 
+extern int PAPI_flops( float *rtime, float *ptime, long long *flpops, float *mflops );
+
 int main() {
+    long long flpins;
+
+    float real_time, proc_time, mflops;
+    int retval;
+
+    /* Setup PAPI library and begin collecting data from the counters */
+    if((retval = PAPI_flops( &real_time, &proc_time, &flpins, &mflops))<PAPI_OK) {
+        cout << "ERROR";
+    }
+
+
     std::ofstream outfile;
 
 
@@ -40,7 +56,19 @@ int main() {
         outfile.open("test.txt", std::ios_base::app);
         outfile << j << "\t" << elapsed_secs << endl;
         outfile.close();
+
+
     }
+
+
+    if((retval=PAPI_flops( &real_time, &proc_time, &flpins, &mflops))<PAPI_OK) {
+        cout << "error";
+    }
+
+    printf("Real_time:\t%f\nProc_time:\t%f\nTotal flpins:\t%lld\nMFLOPS:\t\t%f\n",real_time, proc_time, flpins, mflops);
+    printf("%s\tPASSED\n", __FILE__);
+    PAPI_shutdown();
+
 
     // Print the plot
     system("gnuplot -e \"set term png;set output 'test.png'; plot 'test.txt' with lines\"");
