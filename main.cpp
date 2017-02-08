@@ -7,24 +7,25 @@
 #include <stdlib.h>
 #include <memory.h>
 
-
+#define NUM_EVENTS 1
 using namespace std;
 
 const int N=10000000;
 const int MAX=10100000;
 
-extern int PAPI_flops( float *rtime, float *ptime, long long *flpops, float *mflops );
+
 
 int main(int argc, char* argv[]) {
-    long long flpins;
+    int events[NUM_EVENTS] = {PAPI_BR_MSP};
+    long_long values[NUM_EVENTS];
+    int ret;
 
-    float real_time, proc_time, mflops;
-    int retval;
 
-    /* Setup PAPI library and begin collecting data from the counters */
-    if((retval = PAPI_flops( &real_time, &proc_time, &flpins, &mflops))<PAPI_OK) {
-        cout << "ERROR" << endl;
+    if (PAPI_num_counters() < NUM_EVENTS) {
+        fprintf(stderr, "No hardware counters here, or PAPI not supported.\n");
+        exit(1);
     }
+
 
     // Initialize based on command line, use linearscanpred as default for now
     BasePred *pred = new LinearScanPred();
@@ -48,6 +49,13 @@ int main(int argc, char* argv[]) {
 
     std::ofstream outfile;
 
+
+    if ((ret = PAPI_start_counters(events, NUM_EVENTS)) != PAPI_OK) {
+        fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
+        exit(1);
+    }
+
+
     for (int j = N; j <= MAX; j = j + 10000) {
         // Build an array of integers of size X
         int tmp = 0;
@@ -58,6 +66,7 @@ int main(int argc, char* argv[]) {
             tmp = tmp + 10;
         }
 
+
         // Set the array
         pred->setArray(X);
         int thePred = 0;
@@ -65,10 +74,24 @@ int main(int argc, char* argv[]) {
         // Start timer
         clock_t begin = clock();
 
+        if ((ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
+            fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
+            exit(1);
+        }
+
         // Run algorithm numberOfRuns times
         for (int runs = 1; runs <= numberOfRuns; runs++) {
+
+            if ((ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
+                fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
+                exit(1);
+            }
+
             int testPred = tmp / runs;
             thePred = pred->pred(testPred);
+
+
+            printf("Branch mispredictions: %lld\n", values[0]);
         }
 
 
@@ -84,14 +107,6 @@ int main(int argc, char* argv[]) {
         outfile.close();
     }
 
-
-    if((retval=PAPI_flops( &real_time, &proc_time, &flpins, &mflops))<PAPI_OK) {
-        cout << "error";
-    }
-
-    printf("Real_time:\t%f\nProc_time:\t%f\nTotal flpins:\t%lld\nMFLOPS:\t\t%f\n",real_time, proc_time, flpins, mflops);
-    printf("%s\tPASSED\n", __FILE__);
-    PAPI_shutdown();
 
 
     // Print the plot
