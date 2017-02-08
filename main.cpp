@@ -2,6 +2,7 @@
 #include <ctime>
 #include <fstream>
 #include "Pred.cpp"
+#include "LinearScanPred.cpp"
 #include "papi.h"
 #include <stdlib.h>
 #include <memory.h>
@@ -25,9 +26,10 @@ int main() {
         cout << "ERROR";
     }
 
+    // TODO: Initiaze based on command line
+    BasePred *pred = new LinearScanPred();
 
     std::ofstream outfile;
-
 
 
     for (int j = N; j <= MAX; j = j + 10000) {
@@ -40,24 +42,25 @@ int main() {
             tmp = tmp + 10;
         }
 
+        // Set the array
+        pred->setArray(X);
+
         // Start timer
         clock_t begin = clock();
 
         // Run algorithm
-        int pred = Pred::predWithScan(X, 89);
+        int thePred = pred->pred(89);
 
         // End timer
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-        cout << "Pred: " << pred << endl;
+        cout << "Pred: " << thePred << endl;
 
         // Output to tsv file
         outfile.open("test.txt", std::ios_base::app);
         outfile << j << "\t" << elapsed_secs << endl;
         outfile.close();
-
-
     }
 
 
