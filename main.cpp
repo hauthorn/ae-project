@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 
     /* Setup PAPI library and begin collecting data from the counters */
     if((retval = PAPI_flops( &real_time, &proc_time, &flpins, &mflops))<PAPI_OK) {
-        cout << "ERROR";
+        cout << "ERROR" << endl;
     }
 
     // Initialize based on command line, use linearscanpred as default for now
@@ -39,8 +39,14 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    std::ofstream outfile;
+    // How many times should we run pred per array?
+    int numberOfRuns = 1;
+    if (argc > 2) {
+        numberOfRuns = atoi(argv[2]);
+        cout << "Number of runs: " << numberOfRuns << endl;
+    }
 
+    std::ofstream outfile;
 
     for (int j = N; j <= MAX; j = j + 10000) {
         // Build an array of integers of size X
@@ -54,22 +60,27 @@ int main(int argc, char* argv[]) {
 
         // Set the array
         pred->setArray(X);
+        int thePred = 0;
 
         // Start timer
         clock_t begin = clock();
 
-        // Run algorithm
-        int thePred = pred->pred(89);
+        // Run algorithm numberOfRuns times
+        for (int runs = 1; runs <= numberOfRuns; runs++) {
+            int testPred = tmp / runs;
+            thePred = pred->pred(testPred);
+        }
+
 
         // End timer
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-
+        double average_secs = elapsed_secs / numberOfRuns;
         cout << "Pred: " << thePred << endl;
 
         // Output to tsv file
         outfile.open("test.txt", std::ios_base::app);
-        outfile << j << "\t" << elapsed_secs << endl;
+        outfile << j << "\t" << average_secs << endl;
         outfile.close();
     }
 
