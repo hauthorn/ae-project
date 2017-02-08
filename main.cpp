@@ -19,6 +19,11 @@ int main(int argc, char* argv[]) {
     int ret;
 
 
+
+
+
+
+
     if (PAPI_num_counters() < NUM_EVENTS) {
         fprintf(stderr, "No hardware counters here, or PAPI not supported.\n");
         exit(1);
@@ -27,32 +32,36 @@ int main(int argc, char* argv[]) {
 
     // Initialize based on command line, use linearscanpred as default for now
     BasePred *pred = new LinearScanPred();
-    if (argc > 1) {
-        if (string(argv[1]) == "linear") {
-            cout << "Using linear algorithm" << endl;
-            pred = new LinearScanPred();
-        }
-        else if (string(argv[1]) == "binary") {
-            cout << "Using binary search algorithm" << endl;
-            pred = new BinarySearch();
-        }
-    }
-
-    // How many times should we run pred per array?
     int numberOfRuns = 1;
-    if (argc > 2) {
-        numberOfRuns = atoi(argv[2]);
-        cout << "Number of runs: " << numberOfRuns << endl;
-    }
 
-    if(argc > 3) {
-        if(string(argv[3]) == "br_msp") {
-            events[0] = PAPI_BR_MSP;
-        } else if(string(argv[3]) == "l2_dcm") {
-            events[0] = PAPI_L2_DCM;
+    for(int i = 1; i <= argc; i+=2) {
+        if(i+1 >= argc)
+            break;
+
+        if(string(argv[i]) == "a") {
+            if (string(argv[i+1]) == "linear") {
+                cout << "Using linear algorithm" << endl;
+                pred = new LinearScanPred();
+            }
+            else if (string(argv[i+1]) == "binary") {
+                cout << "Using binary search algorithm" << endl;
+                pred = new BinarySearch();
+            }
+        } else if (string(argv[i]) == "n") {
+            numberOfRuns = atoi(argv[i+1]);
+            cout << "Number of runs: " << numberOfRuns << endl;
+        } else if(string(argv[i]) == "m") {
+            if(string(argv[i+1]) == "br_msp") {
+                cout << "Measuring branch mispredictions" << endl;
+                events[0] = PAPI_BR_MSP;
+            } else if(string(argv[i+1]) == "l2_dcm") {
+                cout << "Measuring L2 Data cache misses" << endl;
+                events[0] = PAPI_L2_DCM;
+            }
         }
-    }
 
+
+    }
     std::ofstream outfile;
 
 
@@ -85,6 +94,8 @@ int main(int argc, char* argv[]) {
             exit(1);
         }
 
+        long_long cpuRead;
+
         // Run algorithm numberOfRuns times
         for (int runs = 1; runs <= numberOfRuns; runs++) {
 
@@ -96,8 +107,7 @@ int main(int argc, char* argv[]) {
             int testPred = tmp / runs;
             thePred = pred->pred(testPred);
 
-
-            printf("Branch mispredictions: %lld\n", values[0]);
+            cpuRead += values[0];
         }
 
 
@@ -105,7 +115,8 @@ int main(int argc, char* argv[]) {
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double average_secs = elapsed_secs / numberOfRuns;
-        cout << "Pred: " << thePred << endl;
+        cpuRead = cpuRead / numberOfRuns;
+        cout << "Pred: " << thePred << " cpuRead " << cpuRead <<endl;
 
         // Output to tsv file
         outfile.open("test.txt", std::ios_base::app);
