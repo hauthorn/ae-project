@@ -15,7 +15,7 @@ const int MAX=10100000;
 
 extern int PAPI_flops( float *rtime, float *ptime, long long *flpops, float *mflops );
 
-int main() {
+int main(int argc, char* argv[]) {
     long long flpins;
 
     float real_time, proc_time, mflops;
@@ -26,8 +26,14 @@ int main() {
         cout << "ERROR";
     }
 
-    // TODO: Initiaze based on command line
+    // Initialize based on command line, use linearscanpred as default for now
     BasePred *pred = new LinearScanPred();
+    if (argc > 1) {
+        if (string(argv[1]) == "linear") {
+            cout << "Using linear algorithm" << endl;
+            pred = new LinearScanPred();
+        }
+    }
 
     std::ofstream outfile;
 
