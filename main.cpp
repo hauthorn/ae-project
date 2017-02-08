@@ -1,7 +1,6 @@
 #include <iostream>
 #include <ctime>
 #include <fstream>
-#include "Pred.cpp"
 #include "LinearScanPred.cpp"
 #include "papi.h"
 #include <stdlib.h>
