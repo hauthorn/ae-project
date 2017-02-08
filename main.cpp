@@ -4,8 +4,6 @@
 #include "LinearScanPred.cpp"
 #include "BinarySearch.cpp"
 #include "papi.h"
-#include <stdlib.h>
-#include <memory.h>
 
 #define NUM_EVENTS 1
 using namespace std;
@@ -45,6 +43,14 @@ int main(int argc, char* argv[]) {
     if (argc > 2) {
         numberOfRuns = atoi(argv[2]);
         cout << "Number of runs: " << numberOfRuns << endl;
+    }
+
+    if(argc > 3) {
+        if(string(argv[3]) == "br_msp") {
+            events[0] = PAPI_BR_MSP;
+        } else if(string(argv[3]) == "l2_dcm") {
+            events[0] = PAPI_L2_DCM;
+        }
     }
 
     std::ofstream outfile;
