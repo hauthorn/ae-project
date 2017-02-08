@@ -3,8 +3,10 @@
 //
 
 #include <iostream>
-#include "BasePred.cpp"
 #include <math.h>
+#include "BasePred.cpp"
+
+using namespace std;
 
 class BinarySearch : public BasePred {
 public:
@@ -14,19 +16,25 @@ public:
      * @param x
      * @return
      */
-    int binarySearch(vector<int> array, int T, int LEFT, unsigned long RIGHT) {
-        LEFT = 0;
-        RIGHT = array.size() - 1;
+    int pred(int x) {
+        binarySearch(x, 0, this->array.size()-1);
+
+        return 0;
+    }
+
+    int binarySearch(int T, int LEFT, unsigned long RIGHT) {
+
+        RIGHT = this->array.size() - 1;
         if (LEFT > RIGHT) {
-            cout , "Search unsuccessful" , endl;
+            cout << "Search unsuccessful" << endl;
             return 0;
         } else {
             double m = floor((LEFT + RIGHT)/2);
-            if (array[m] < T) {
-                binarySearch(array, T, m + 1, RIGHT);
+            if (this->array[m] < T) {
+                binarySearch(T, m + 1, RIGHT);
             }
         }
-
+        return 0;
     }
 
 };

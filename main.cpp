@@ -2,6 +2,7 @@
 #include <ctime>
 #include <fstream>
 #include "LinearScanPred.cpp"
+#include "BinarySearch.cpp"
 #include "papi.h"
 #include <stdlib.h>
 #include <memory.h>
@@ -31,6 +32,10 @@ int main(int argc, char* argv[]) {
         if (string(argv[1]) == "linear") {
             cout << "Using linear algorithm" << endl;
             pred = new LinearScanPred();
+        }
+        else if (string(argv[1]) == "binary") {
+            cout << "Using binary search algorithm" << endl;
+            pred = new BinarySearch();
         }
     }
 

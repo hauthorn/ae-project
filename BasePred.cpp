@@ -1,6 +1,9 @@
 //
 // This is the base class for the template method pattern
 //
+
+#ifndef BASEPRED
+#define BASEPRED
 #include <vector>
 
 using namespace std;
@@ -26,3 +29,5 @@ public:
         this->array = array;
     }
 };
+
+#endif
