@@ -11,16 +11,16 @@
 using namespace std;
 using namespace std::chrono;
 
-const int N=10000000;
-const int MAX=10100000;
+const int N = 1000;
+const long MAX = 100000000;
 
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int events[NUM_EVENTS] = {PAPI_BR_MSP};
     long_long values[NUM_EVENTS];
     int ret;
 
-    milliseconds ms = duration_cast< milliseconds >(
+    milliseconds ms = duration_cast<milliseconds>(
             system_clock::now().time_since_epoch()
     );
 
@@ -35,27 +35,26 @@ int main(int argc, char* argv[]) {
     BasePred *pred = new LinearScanPred();
     int numberOfRuns = 1;
 
-    for(int i = 1; i <= argc; i+=2) {
-        if(i+1 >= argc)
+    for (int i = 1; i <= argc; i += 2) {
+        if (i + 1 >= argc)
             break;
 
-        if(string(argv[i]) == "a") {
-            if (string(argv[i+1]) == "linear") {
+        if (string(argv[i]) == "a") {
+            if (string(argv[i + 1]) == "linear") {
                 cout << "Using linear algorithm" << endl;
                 pred = new LinearScanPred();
-            }
-            else if (string(argv[i+1]) == "binary") {
+            } else if (string(argv[i + 1]) == "binary") {
                 cout << "Using binary search algorithm" << endl;
                 pred = new BinarySearch();
             }
         } else if (string(argv[i]) == "n") {
-            numberOfRuns = atoi(argv[i+1]);
+            numberOfRuns = atoi(argv[i + 1]);
             cout << "Number of runs: " << numberOfRuns << endl;
-        } else if(string(argv[i]) == "m") {
-            if(string(argv[i+1]) == "br_msp") {
+        } else if (string(argv[i]) == "m") {
+            if (string(argv[i + 1]) == "br_msp") {
                 cout << "Measuring branch mispredictions" << endl;
                 events[0] = PAPI_BR_MSP;
-            } else if(string(argv[i+1]) == "l2_dcm") {
+            } else if (string(argv[i + 1]) == "l2_dcm") {
                 cout << "Measuring L2 Data cache misses" << endl;
                 events[0] = PAPI_L2_DCM;
             }
@@ -71,7 +70,7 @@ int main(int argc, char* argv[]) {
     }
 
 
-    for (int j = N; j <= MAX; j = j + 10000) {
+    for (int j = N; j <= MAX; j = j + j) {
         // Build an array of integers of size X
         int tmp = 0;
         vector<int> X(j);
@@ -93,7 +92,7 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
         }
 
-        long_long cpuRead;
+        long_long cpuRead = 0;
 
         // Run algorithm numberOfRuns times
         for (int runs = 1; runs <= numberOfRuns; runs++) {
@@ -114,7 +113,7 @@ int main(int argc, char* argv[]) {
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double average_secs = elapsed_secs / numberOfRuns;
         cpuRead = cpuRead / numberOfRuns;
-        cout << "Pred: " << thePred << " cpuRead " << cpuRead <<endl;
+        cout << "Pred: " << thePred << " cpuRead " << cpuRead << endl;
 
         // Output to tsv file
         outfile.open(timestamp + ".txt", std::ios_base::app);
@@ -123,7 +122,8 @@ int main(int argc, char* argv[]) {
     }
 
     // Print the plot
-    string call = string("gnuplot -e \"set term png;set output '" + timestamp + ".png'; plot '" + timestamp + ".txt' with lines\"");
+    string call = string(
+            "gnuplot -e \"set term png;set output '" + timestamp + ".png'; plot '" + timestamp + ".txt' with lines\"");
     system(call.c_str());
 
     return 0;
