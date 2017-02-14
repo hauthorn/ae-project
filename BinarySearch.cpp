@@ -27,6 +27,7 @@ public:
 
     int binarySearch(int l, int r) {
         if(l > r){
+            // we are done, return the closest matching
             return this->p;
         }
 
@@ -36,10 +37,14 @@ public:
         if(this->array[m] < x) {
             // save this as closest
             this->p = this->array[m];
+
+            // look to the right
             return binarySearch(m+1, r);
         } else if(this->array[m] > x) {
+            // look to the left
             return binarySearch(l, m-1);
         } else {
+            // found actual value
             return x;
         }
     }
