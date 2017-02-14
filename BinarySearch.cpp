@@ -9,6 +9,10 @@
 using namespace std;
 
 class BinarySearch : public BasePred {
+private:
+    // x is the value we are looking for, p is the closest so far
+    int x, p;
+
 public:
     /**
      * Linearly scan through the array to find the pred
@@ -17,24 +21,27 @@ public:
      * @return
      */
     int pred(int x) {
-        binarySearch(x, 0, this->array.size()-1);
-
-        return 0;
+        this->x = x;
+        return binarySearch(0, (this->array.size())-1);
     }
 
-    int binarySearch(int T, int LEFT, unsigned long RIGHT) {
-
-        RIGHT = this->array.size() - 1;
-        if (LEFT > RIGHT) {
-            cout << "Search unsuccessful" << endl;
-            return 0;
-        } else {
-            double m = floor((LEFT + RIGHT)/2);
-            if (this->array[m] < T) {
-                binarySearch(T, m + 1, RIGHT);
-            }
+    int binarySearch(int l, int r) {
+        if(l > r){
+            return this->p;
         }
-        return 0;
+
+        // position of the middle element
+        int m = floor((l+r)/2);
+
+        if(this->array[m] < x) {
+            // save this as closest
+            this->p = this->array[m];
+            return binarySearch(m+1, r);
+        } else if(this->array[m] > x) {
+            return binarySearch(l, m-1);
+        } else {
+            return x;
+        }
     }
 
 };
