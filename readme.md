@@ -10,6 +10,9 @@ You are now good to go.
 
 ## Run
 
+## Verifying the algorithms
+Run the "Verify" target using CMake.
+
 ## Authors
 * Anders Grønning Mikkelsen
 * Christoffer Hauthorn Boisen
