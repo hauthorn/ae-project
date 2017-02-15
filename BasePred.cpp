@@ -20,7 +20,7 @@ public:
      */
     virtual int pred(int x) = 0;
 
-    /**
+    virtual /**
      * Sets the array to use by the Pred algorithm.
      *
      * @param array
