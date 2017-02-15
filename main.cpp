@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 
     string fileName = to_string(ms.count());
 
-    if (PAPI_num_counters() < NUM_EVENTS) {
+    if (papi_enabled && PAPI_num_counters() < NUM_EVENTS) {
         fprintf(stderr, "No hardware counters here, or PAPI not supported.\n");
     }
 
@@ -77,9 +77,25 @@ int main(int argc, char *argv[]) {
             if (string(argv[i + 1]) == "br_msp") {
                 cout << "Measuring branch mispredictions" << endl;
                 events[0] = PAPI_BR_MSP;
+            } else if (string(argv[i + 1]) == "l1_dcm") {
+                cout << "Measuring L1 Data cache misses" << endl;
+                events[0] = PAPI_L2_DCM;
             } else if (string(argv[i + 1]) == "l2_dcm") {
                 cout << "Measuring L2 Data cache misses" << endl;
                 events[0] = PAPI_L2_DCM;
+            } else if(string(argv[i+1]) == "l3_dcm") {
+                cout << "Measuring L3 Data cache misses" << endl;
+                events[0] = PAPI_L3_DCM;
+            } else if (string(argv[i+1]) == "l1_tcm") {
+                // (tcm) total cache misses
+                events[0] = PAPI_L1_TCM;
+            } else if (string(argv[i+1]) == "l2_tcm") {
+                events[0] = PAPI_L2_TCM;
+            } else if(string(argv[i+1]) == "l3_tcm"){
+                events[0] = PAPI_L3_TCM;
+            } else if(string(argv[i+1]) == "tot_iis") {
+                // instructions issued
+                events[0] = PAPI_TOT_IIS;
             } else {
                 papi_enabled = false;
             }
