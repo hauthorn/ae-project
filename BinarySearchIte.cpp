@@ -9,7 +9,6 @@
 using namespace std;
 
 class BinarySearchIte : public BasePred {
-
 public:
     /**
      * Linearly scan through the array to find the pred
