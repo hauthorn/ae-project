@@ -6,6 +6,7 @@
 #include "BinarySearchIte.cpp"
 #include "BinarySearchTree.cpp"
 #include "papi.h"
+#include "fileutils/FileUtils.h"
 #include <chrono>
 
 #define NUM_EVENTS 1
@@ -14,8 +15,7 @@ using namespace std;
 using namespace std::chrono;
 
 const int N = 1000;
-const long MAX = 100000000;
-
+const long MAX = 10000;
 
 int main(int argc, char *argv[]) {
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
             system_clock::now().time_since_epoch()
     );
 
-    string timestamp = to_string(ms.count());
+    string fileName = to_string(ms.count());
 
     if (PAPI_num_counters() < NUM_EVENTS) {
         fprintf(stderr, "No hardware counters here, or PAPI not supported.\n");
@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
 
     // Initialize based on command line, use linearscanpred as default for now
     BasePred *pred = new LinearScanPred();
+    string algoName = "lin";
     int numberOfRuns = 1;
 
     string measure_label;
@@ -55,12 +56,15 @@ int main(int argc, char *argv[]) {
             } else if (string(argv[i + 1]) == "binaryRecursive") {
                 cout << "Using binary search algorithm recursive" << endl;
                 pred = new BinarySearchRec();
+                algoName = "binrec";
             } else if (string(argv[i + 1]) == "binaryIterative") {
                 cout << "Using binary search algorithm iterative" << endl;
                 pred = new BinarySearchIte();
+                algoName = "binite";
             } else if (string(argv[i + 1]) == "binaryTree") {
                 cout << "Using binary search tree algorithm" << endl;
                 pred = new BinarySearchTree();
+                algoName = "bintree";
             }
         } else if (string(argv[i]) == "-n") {
             numberOfRuns = atoi(argv[i + 1]);
@@ -79,6 +83,8 @@ int main(int argc, char *argv[]) {
             } else {
                 papi_enabled = false;
             }
+        } else if (string(argv[i]) == "-f") {
+            fileName = string(argv[i+1]);
         }
 
 
@@ -89,6 +95,9 @@ int main(int argc, char *argv[]) {
     if (papi_enabled && (ret = PAPI_start_counters(events, NUM_EVENTS)) != PAPI_OK) {
         fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
     }
+
+    string command =  "mkdir " + fileName;
+    system(command.c_str());
 
 
     for (int j = N; j <= MAX; j = j + j) {
@@ -141,13 +150,13 @@ int main(int argc, char *argv[]) {
         cout << endl;
 
         // Output to tsv file
-        outfile.open(timestamp + ".txt", std::ios_base::app);
+        outfile.open(FileUtils::getRuntimeFileName(fileName, algoName), std::ios_base::app);
         outfile << j << "\t" << average_secs << endl;
         outfile.close();
 
         // write papi results to file
         if(papi_enabled) {
-            outfile.open(timestamp + "_" + papi_label + ".txt", std::ios_base::app);
+            outfile.open(FileUtils::getPapiFileName(papi_label, fileName, algoName), std::ios_base::app);
             outfile << j << "\t" << cpuRead << endl;
             outfile.close();
         }
@@ -155,13 +164,13 @@ int main(int argc, char *argv[]) {
 
     // Print the plot
     string call = string(
-            "gnuplot -e \"set term png;set output '" + timestamp + ".png'; plot '" + timestamp + ".txt' with lines\"");
+            "gnuplot -e \"set term png;set output '" + FileUtils::getOutputName(fileName, algoName) +"'; plot '" + FileUtils::getRuntimeFileName(fileName, algoName) +"' with lines\"");
     system(call.c_str());
 
     if(papi_enabled) {
         // Print the plot
         call = string(
-                "gnuplot -e \"set term png;set output '" + timestamp + "_" + papi_label + ".png'; plot '" + timestamp +"_" + papi_label + ".txt' with lines\"");
+                "gnuplot -e \"set term png;set output '" + FileUtils::getOutputName(papi_label, fileName, algoName) + "'; plot '" + FileUtils::getPapiFileName(papi_label, fileName, algoName) + "' with lines\"");
         system(call.c_str());
     }
 
