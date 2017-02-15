@@ -154,5 +154,13 @@ int main(int argc, char *argv[]) {
             "gnuplot -e \"set term png;set output '" + timestamp + ".png'; plot '" + timestamp + ".txt' with lines\"");
     system(call.c_str());
 
+    if(papi_enabled) {
+        // Print the plot
+        call = string(
+                "gnuplot -e \"set term png;set output '" + timestamp + "_" + papi_label + ".png'; plot '" + timestamp +"_" + papi_label + ".txt' with lines\"");
+        system(call.c_str());
+    }
+
+
     return 0;
 }
