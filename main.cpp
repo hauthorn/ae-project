@@ -138,13 +138,15 @@ int main(int argc, char *argv[]) {
 
         // Output to tsv file
         outfile.open(timestamp + ".txt", std::ios_base::app);
-        outfile << j << "\t" << average_secs;
-
-        if(papi_enabled)
-            outfile << " " << cpuRead;
-
-        outfile << "" << endl;
+        outfile << j << "\t" << average_secs << endl;
         outfile.close();
+
+        // write papi results to file
+        if(papi_enabled) {
+            outfile.open(timestamp + "_" + papi_label + ".txt", std::ios_base::app);
+            outfile << j << "\t" << cpuRead << endl;
+            outfile.close();
+        }
     }
 
     // Print the plot
