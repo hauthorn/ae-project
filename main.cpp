@@ -15,7 +15,7 @@ using namespace std;
 using namespace std::chrono;
 
 const int N = 1000;
-const long MAX = 10000;
+long MAX = 10000;
 
 int main(int argc, char *argv[]) {
 
@@ -101,6 +101,8 @@ int main(int argc, char *argv[]) {
             }
         } else if (string(argv[i]) == "-f") {
             fileName = string(argv[i+1]);
+        } else if (string(argv[i]) == "-max") {
+            MAX = atol(argv[i+1]);
         }
 
 
@@ -112,7 +114,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
     }
 
-    string command =  "mkdir " + fileName;
+    string command =  "mkdir -p " + fileName;
     system(command.c_str());
 
 
@@ -180,13 +182,13 @@ int main(int argc, char *argv[]) {
 
     // Print the plot
     string call = string(
-            "gnuplot -e \"set term png;set output '" + FileUtils::getOutputName(fileName, algoName) +"'; plot '" + FileUtils::getRuntimeFileName(fileName, algoName) +"' with lines\"");
+            "gnuplot -e \"set term png;set output '" + FileUtils::getOutputName(fileName, algoName) +"'; plot '" + FileUtils::getRuntimeFileName(fileName, algoName) +"' with points\"");
     system(call.c_str());
 
     if(papi_enabled) {
         // Print the plot
         call = string(
-                "gnuplot -e \"set term png;set output '" + FileUtils::getOutputName(papi_label, fileName, algoName) + "'; plot '" + FileUtils::getPapiFileName(papi_label, fileName, algoName) + "' with lines\"");
+                "gnuplot -e \"set term png;set output '" + FileUtils::getOutputName(papi_label, fileName, algoName) + "'; plot '" + FileUtils::getPapiFileName(papi_label, fileName, algoName) + "' with points\"");
         system(call.c_str());
     }
 
