@@ -96,7 +96,21 @@ int main(int argc, char *argv[]) {
             } else if(string(argv[i+1]) == "tot_iis") {
                 // instructions issued
                 events[0] = PAPI_TOT_IIS;
-            } else {
+            } else if(string(argv[i+1]) == "tlb_tl") {
+                // total tlb misses
+                events[0] = PAPI_TLB_TL;
+            } else if(string(argv[i+1]) == "tlb_im") {
+                // tlb ins
+                events[0] = PAPI_TLB_IM;
+            } else if(string(argv[i+1]) == "csr_tot") {
+                // total store conditional instructions
+                events[0] = PAPI_CSR_TOT;
+            } else if(string(argv[i+1]) == "br_cn") {
+                events[0] = PAPI_BR_CN;
+            }
+
+
+            else {
                 papi_enabled = false;
             }
         } else if (string(argv[i]) == "-f") {
