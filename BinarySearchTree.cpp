@@ -24,11 +24,13 @@ public:
 
     int pred(int x) {
         this->x = x;
-        return findPre(this->pred_root, this->pred_root, x);
+        TNode* pred = findPre(this->pred_root, x);
+        return pred->key;
     }
 
     void setArray(vector<int> array){
-        this->pred_root = newNode(array[0]);
+        int mid = array.size()/2;
+        this->pred_root = newNode(array[mid]);
 
         for (int i = 1; i < array.size(); i++){
             pred_root = insert(pred_root, array[i]);
@@ -56,29 +58,20 @@ public:
 
         return temp;
     }
-    /*
-    struct TNode* sortedArrayToBST(vector<int> array, int start, int end){
-        // Base case
-        if (start > end)
+
+    TNode* findMax(TNode* root) {
+        if (!root)
             return NULL;
 
-        // Make middle array element root
-        int mid = (int)floor(start + end)/2;
-
-        cout << "BINARY:: Setting root to " << array[mid] << endl;
-
-        struct TNode* root = newNode(array[mid]);
-
-        // Recursively construct left subtree and make it left child of root
-        root->left = sortedArrayToBST(array, start, mid-1);
-
-        // Recursively construct right subtree and make it right child of root
-        root->right = sortedArrayToBST(array, mid+1, end);
+        while (root->right) root = root->right;
 
         return root;
-    }*/
+    }
 
-    int findPre(TNode* root, TNode*& pre, int key){
+    TNode* findPre(TNode* root, int key) {
+
+        TNode *predecessor = NULL;
+        TNode *current = root;
 
         // Base case
         if (root == NULL) {
@@ -86,30 +79,21 @@ public:
             return 0;
 
         }
-        // If key is at root
-        if (root->key == key) {
+        while (current && current->key != key) {
 
-            // Max val in left subtree is pred
-            if (root->left != NULL) {
-                TNode* tmp = root->left;
-                while (tmp->right)
-                    tmp = tmp->right;
-                pre = tmp;
+            // If key is smaller than root key, go to left subtree
+            if (current->key > key)
+                current = current->left;
+                // Else go to right subtree
+            else {
+                predecessor = current;
+                current = current->right;
             }
         }
+        if (current && current->left) {
+            predecessor = findMax(current->left);
+        }
 
-        // If key is smaller than root key, go to left subtree
-        if (root->key > key){
-            pre = root;
-            findPre(root->left, pre, key);
-        }
-        // Else go to right subtree
-        else if (root->key < key){
-            pre = root;
-            findPre(root->right, pre, key);
-        } else {
-            cout << "BINARYTREE:: Pred found - " << pre->key << endl;
-            return pre->key;
-        }
+        return predecessor;
     }
 };

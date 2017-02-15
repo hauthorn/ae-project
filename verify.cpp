@@ -8,6 +8,7 @@
 #include "LinearScanPred.cpp"
 #include "BinarySearchRec.cpp"
 #include "BinarySearchIte.cpp"
+#include "BinarySearchTree.cpp"
 
 using namespace std;
 
@@ -28,13 +29,14 @@ int main(int argc, char *argv[]) {
     }
 
     // Initialize the algorithms
-    vector<BasePred*> algoritms(3);
-    algoritms[0] = new LinearScanPred();
-    algoritms[1] = new BinarySearchIte();
-    algoritms[2] = new BinarySearchRec();
+    vector<BasePred*> algorithms(4);
+    algorithms[0] = new LinearScanPred();
+    algorithms[1] = new BinarySearchIte();
+    algorithms[2] = new BinarySearchRec();
+    algorithms[3] = new BinarySearchTree();
 
-    for (int j = 0; j < algoritms.size(); ++j) {
-        algoritms[j]->setArray(X);
+    for (int j = 0; j < algorithms.size(); ++j) {
+        algorithms[j]->setArray(X);
     }
 
     // Run some Pred queries
@@ -43,8 +45,8 @@ int main(int argc, char *argv[]) {
         int search = rand() % tmp + 1; // between 1 and tmp
         int previousResult = 0;
 
-        for (int i = 0; i < algoritms.size(); ++i) {
-            int result = algoritms[i]->pred(search);
+        for (int i = 0; i < algorithms.size(); ++i) {
+            int result = algorithms[i]->pred(search);
             if (previousResult == 0) {
                 previousResult = result;
             }
