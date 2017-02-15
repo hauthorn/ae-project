@@ -6,6 +6,6 @@ set(PAPI_PREFIX "/usr/local/")
 
 set(CMAKE_CXX_STANDARD 11)
 find_package(PAPI REQUIRED)
-set(SOURCE_FILES main.cpp BasePred.cpp LinearScanPred.cpp BinarySearch.cpp)
+set(SOURCE_FILES main.cpp BasePred.cpp LinearScanPred.cpp BinarySearchRec.cpp)
 add_executable(ae_project ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})

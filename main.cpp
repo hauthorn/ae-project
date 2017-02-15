@@ -2,7 +2,8 @@
 #include <ctime>
 #include <fstream>
 #include "LinearScanPred.cpp"
-#include "BinarySearch.cpp"
+#include "BinarySearchRec.cpp"
+#include "BinarySearchIte.cpp"
 #include "papi.h"
 #include <chrono>
 
@@ -43,9 +44,12 @@ int main(int argc, char *argv[]) {
             if (string(argv[i + 1]) == "linear") {
                 cout << "Using linear algorithm" << endl;
                 pred = new LinearScanPred();
-            } else if (string(argv[i + 1]) == "binary") {
-                cout << "Using binary search algorithm" << endl;
-                pred = new BinarySearch();
+            } else if (string(argv[i + 1]) == "binaryRecursive") {
+                cout << "Using binary search algorithm recursive" << endl;
+                pred = new BinarySearchRec();
+            } else if (string(argv[i+1]) == "binaryIterative") {
+                cout << "Using binary search algorithm iterative" << endl;
+                pred = new BinarySearchIte();
             }
         } else if (string(argv[i]) == "n") {
             numberOfRuns = atoi(argv[i + 1]);

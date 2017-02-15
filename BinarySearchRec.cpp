@@ -8,14 +8,14 @@
 
 using namespace std;
 
-class BinarySearch : public BasePred {
+class BinarySearchRec : public BasePred {
 private:
     // x is the value we are looking for, p is the closest so far
     int x, p;
 
 public:
     /**
-     * Linearly scan through the array to find the pred
+     * Binary search through the array to find the pred
      * @param array
      * @param x
      * @return
