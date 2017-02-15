@@ -4,6 +4,7 @@
 #include "LinearScanPred.cpp"
 #include "BinarySearchRec.cpp"
 #include "BinarySearchIte.cpp"
+#include "BinarySearchTree.cpp"
 #include "papi.h"
 #include <chrono>
 
@@ -54,9 +55,12 @@ int main(int argc, char *argv[]) {
             } else if (string(argv[i + 1]) == "binaryRecursive") {
                 cout << "Using binary search algorithm recursive" << endl;
                 pred = new BinarySearchRec();
-            } else if (string(argv[i+1]) == "binaryIterative") {
+            } else if (string(argv[i + 1]) == "binaryIterative") {
                 cout << "Using binary search algorithm iterative" << endl;
                 pred = new BinarySearchIte();
+            } else if (string(argv[i + 1]) == "binaryTree") {
+                cout << "Using binary search tree algorithm" << endl;
+                pred = new BinarySearchTree();
             }
         } else if (string(argv[i]) == "-n") {
             numberOfRuns = atoi(argv[i + 1]);
