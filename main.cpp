@@ -16,6 +16,7 @@ using namespace std::chrono;
 
 const int N = 1000;
 long MAX = 10000;
+vector<int> *X;
 
 int main(int argc, char *argv[]) {
 
@@ -135,10 +136,10 @@ int main(int argc, char *argv[]) {
     for (int j = N; j <= MAX; j = j + j) {
         // Build an array of integers of size X
         int tmp = 0;
-        vector<int> X(j);
+        X = new vector<int>(j);
 
         for (int i = 0; i < j; ++i) {
-            X[i] = tmp + i;
+            X->push_back(tmp + i);
             tmp = tmp + 10;
         }
 
@@ -185,6 +186,8 @@ int main(int argc, char *argv[]) {
         outfile.open(FileUtils::getRuntimeFileName(fileName, algoName), std::ios_base::app);
         outfile << j << "\t" << average_secs << endl;
         outfile.close();
+
+        delete X;
 
         // write papi results to file
         if(papi_enabled) {

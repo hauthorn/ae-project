@@ -17,11 +17,11 @@ public:
     int pred(int x) {
         int max = 1;
 
-        int size = (int) this->array.size();
+        int size = (int) this->array->size();
 
         for (int i = 0; i < size; ++i) {
-            if (this->array[i] > max && this->array[i] <= x) {
-                max = this->array[i];
+            if (this->array->at(i) > max && this->array->at(i) <= x) {
+                max = this->array->at(i);
             }
         }
 

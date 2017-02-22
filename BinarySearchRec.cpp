@@ -22,7 +22,7 @@ public:
      */
     int pred(int x) {
         this->x = x;
-        return binarySearch(0, (this->array.size())-1);
+        return binarySearch(0, (int) ((this->array->size()) - 1));
     }
 
     int binarySearch(int l, int r) {
@@ -34,13 +34,13 @@ public:
         // position of the middle element
         int m = floor((l+r)/2);
 
-        if(this->array[m] < x) {
+        if(this->array->at(m) < x) {
             // save this as closest
-            this->p = this->array[m];
+            this->p = this->array->at(m);
 
             // look to the right
             return binarySearch(m+1, r);
-        } else if(this->array[m] > x) {
+        } else if(this->array->at(m) > x) {
             // look to the left
             return binarySearch(l, m-1);
         } else {

@@ -4,13 +4,14 @@
 
 #ifndef BASEPRED
 #define BASEPRED
+
 #include <vector>
 
 using namespace std;
 
 class BasePred {
 protected:
-    vector<int> array;
+    vector<int> *array;
 public:
     /**
      * This is the method you should override when to you pred
@@ -25,7 +26,7 @@ public:
      *
      * @param array
      */
-    void setArray(vector<int> array) {
+    void setArray(vector<int> *array) {
         this->array = array;
     }
 };
