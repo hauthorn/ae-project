@@ -142,6 +142,7 @@ int main(int argc, char *argv[]) {
             tmp = tmp + 10;
         }
 
+        cout << "Array size: " << j << endl;
 
         // Set the array
         pred->setArray(X);
@@ -175,7 +176,6 @@ int main(int argc, char *argv[]) {
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double average_secs = elapsed_secs / numberOfRuns;
         cpuRead = cpuRead / numberOfRuns;
-        cout << "Pred: " << thePred << " ";
         if(papi_enabled)
             cout << papi_label << ": " << cpuRead << endl;
 
