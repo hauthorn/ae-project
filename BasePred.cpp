@@ -29,6 +29,14 @@ public:
     void setArray(vector<int> *array) {
         this->array = array;
     }
+
+    /**
+     * This is used by verify
+     * @param array
+     */
+    void setArray(int array[]) {
+        this->array = new vector<int>(array, array + sizeof(array) / sizeof(array[0]));
+    }
 };
 
 #endif

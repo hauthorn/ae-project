@@ -12,8 +12,8 @@
 
 using namespace std;
 
-const int N = 1000;
-
+const int N = 1000000000;
+int X[N];
 const int NUM_TESTS = 100;
 
 int main(int argc, char *argv[]) {
@@ -21,19 +21,20 @@ int main(int argc, char *argv[]) {
 
     // Build an array of integers of size N
     int tmp = 0;
-    vector<int> X(N);
 
     for (int i = 0; i < N; ++i) {
         X[i] = tmp + i;
         tmp = tmp + 10;
     }
 
-    // Initialize the algorithms
-    vector<BasePred*> algorithms(4);
+    cout << "Initialize the algorithms" << endl;
+    vector<BasePred*> algorithms(3);
     algorithms[0] = new LinearScanPred();
     algorithms[1] = new BinarySearchIte();
     algorithms[2] = new BinarySearchRec();
-    algorithms[3] = new BinarySearchTree();
+//    algorithms[3] = new BinarySearchTree();
+
+    cout << "Setting arrays" << endl;
 
     for (int j = 0; j < algorithms.size(); ++j) {
         algorithms[j]->setArray(X);
@@ -46,6 +47,7 @@ int main(int argc, char *argv[]) {
         int previousResult = 0;
 
         for (int i = 0; i < algorithms.size(); ++i) {
+            cout << "Testing algorithm number: " << i << endl;
             int result = algorithms[i]->pred(search);
             if (previousResult == 0) {
                 previousResult = result;
