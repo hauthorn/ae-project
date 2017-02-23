@@ -11,34 +11,33 @@
 using namespace std;
 
 struct TNode {
-    int key;
+    unsigned int key;
     struct TNode *left, *right;
 };
 
 class BinarySearchTree : public BasePred {
 private:
-    int x;
+    unsigned int x;
     TNode* pred_root;
 
 public:
-
-    int pred(int x) {
+    unsigned int pred(unsigned int x) {
         this->x = x;
         TNode* pred = findPre(this->pred_root, x);
         return pred->key;
     }
 
-    void setArray(vector<int> array){
-        int mid = array.size()/2;
+    void setArray(vector<unsigned int> array){
+        unsigned int mid = array.size()/2;
         this->pred_root = newNode(array[mid]);
 
-        for (int i = 1; i < array.size(); i++){
+        for (unsigned int i = 1; i < array.size(); i++){
             pred_root = insert(pred_root, array[i]);
         }
-        //this->pred_root = sortedArrayToBST(array, 0, (int)array.size()-1);
+        //this->pred_root = sortedArrayToBST(array, 0, (unsigned int)array.size()-1);
     }
 
-    TNode* insert(TNode* node, int key){
+    TNode* insert(TNode* node, unsigned int key){
         if (node == NULL) return newNode(key);
         if (key < node->key)
             node->left = insert(node->left, key);
@@ -48,9 +47,9 @@ public:
     }
 
     // Helper function that allocates a new node with
-    // given key and NULL left/right pointers
+    // given key and NULL left/right pounsigned inters
 
-    struct TNode* newNode(int data) {
+    struct TNode* newNode(unsigned int data) {
 
         TNode *temp = new TNode;
         temp->key = data;
@@ -68,7 +67,7 @@ public:
         return root;
     }
 
-    TNode* findPre(TNode* root, int key) {
+    TNode* findPre(TNode* root, unsigned int key) {
 
         TNode *predecessor = NULL;
         TNode *current = root;

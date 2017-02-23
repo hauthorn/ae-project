@@ -11,7 +11,7 @@ using namespace std;
 
 class BasePred {
 protected:
-    vector<int> *array;
+    vector<unsigned int> *array;
 public:
     /**
      * This is the method you should override when to you pred
@@ -19,14 +19,14 @@ public:
      * @param x
      * @return
      */
-    virtual int pred(int x) = 0;
+    virtual unsigned int pred(unsigned int x) = 0;
 
     virtual /**
      * Sets the array to use by the Pred algorithm.
      *
      * @param array
      */
-    void setArray(vector<int> *array) {
+    void setArray(vector<unsigned int> *array) {
         this->array = array;
     }
 
@@ -34,8 +34,8 @@ public:
      * This is used by verify
      * @param array
      */
-    void setArray(int array[]) {
-        this->array = new vector<int>(array, array + sizeof(array) / sizeof(array[0]));
+    void setArray(unsigned int array[]) {
+        this->array = new vector<unsigned int>(array, array + sizeof(array) / sizeof(array[0]));
     }
 };
 

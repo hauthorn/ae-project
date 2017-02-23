@@ -16,10 +16,10 @@ public:
      * @param x
      * @return
      */
-    int pred(int x) {
-        int p = 0;
+    unsigned int pred(unsigned int x) {
+        unsigned int p = 0;
 
-        int l = 0,
+        unsigned int l = 0,
                 r = this->array->size()-1;
 
         while(l <= r) {

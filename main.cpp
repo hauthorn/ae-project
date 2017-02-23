@@ -14,9 +14,9 @@
 using namespace std;
 using namespace std::chrono;
 
-const int N = 1000;
-long MAX = 10000;
-vector<int> *X;
+const int N = 900;
+unsigned int MAX = 10000;
+vector<unsigned int> *X;
 
 int main(int argc, char *argv[]) {
 
@@ -133,12 +133,12 @@ int main(int argc, char *argv[]) {
     system(command.c_str());
 
 
-    for (int j = N; j <= MAX; j = j + j) {
+    for (unsigned int j = MAX; j > 0; j = j/2) {
         // Build an array of integers of size X
-        int tmp = 0;
-        X = new vector<int>(j);
+        unsigned int tmp = 0;
+        X = new vector<unsigned int>(j);
 
-        for (int i = 0; i < j; ++i) {
+        for (unsigned int i = 0; i < j; ++i) {
             X->push_back(tmp + i);
             tmp = tmp + 10;
         }
@@ -149,23 +149,23 @@ int main(int argc, char *argv[]) {
         pred->setArray(X);
         int thePred = 0;
 
-        // Start timer
-        clock_t begin = clock();
-
         if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
             fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
         }
 
         long_long cpuRead = 0;
 
+        // Start timer
+        clock_t begin = clock();
+
         // Run algorithm numberOfRuns times
-        for (int runs = 1; runs <= numberOfRuns; runs++) {
+        for (unsigned int runs = 1; runs <= numberOfRuns; runs++) {
 
             if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
                 fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
             }
 
-            int testPred = tmp / runs;
+            unsigned int testPred = tmp / runs;
             thePred = pred->pred(testPred);
             cpuRead += values[0];
         }
