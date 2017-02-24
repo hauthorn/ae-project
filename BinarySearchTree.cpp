@@ -27,8 +27,12 @@ public:
         return pred->key;
     }
 
+    /**
+     * build tree
+     * @param array
+     */
     void setArray(vector<unsigned int> array){
-        unsigned int mid = array.size()/2;
+        unsigned int mid = floor(array.size()/2);
         this->pred_root = newNode(array[mid]);
 
         for (unsigned int i = 1; i < array.size(); i++){
@@ -58,6 +62,11 @@ public:
         return temp;
     }
 
+    /**
+     * find maximum in tree
+     * @param root
+     * @return
+     */
     TNode* findMax(TNode* root) {
         if (!root)
             return NULL;
@@ -76,7 +85,6 @@ public:
         if (root == NULL) {
             cout << "BINARYTREE:: root is NULL, returning." << endl;
             return 0;
-
         }
         while (current && current->key != key) {
 

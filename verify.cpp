@@ -28,11 +28,11 @@ int main(int argc, char *argv[]) {
     }
 
     cout << "Initialize the algorithms" << endl;
-    vector<BasePred*> algorithms(3);
+    vector<BasePred*> algorithms(4);
     algorithms[0] = new LinearScanPred();
     algorithms[1] = new BinarySearchIte();
     algorithms[2] = new BinarySearchRec();
-//    algorithms[3] = new BinarySearchTree();
+    algorithms[3] = new BinarySearchTree();
 
     cout << "Setting arrays" << endl;
 
