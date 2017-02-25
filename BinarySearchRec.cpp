@@ -1,7 +1,3 @@
-//
-// Created by frederik on 2/8/17.
-//
-
 #include <iostream>
 #include <math.h>
 #include "BasePred.cpp"
