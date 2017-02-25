@@ -30,13 +30,6 @@ public:
         this->array = array;
     }
 
-    /**
-     * This is used by verify
-     * @param array
-     */
-    void setArray(unsigned int array[]) {
-        this->array = new vector<unsigned int>(array, array + sizeof(array) / sizeof(array[0]));
-    }
 };
 
 #endif
