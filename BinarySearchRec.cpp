@@ -18,7 +18,7 @@ public:
      */
     unsigned int pred(unsigned int x) {
         this->x = x;
-        return binarySearch(0, ((this->array->size()) - 1));
+        return binarySearch(0, ((this->array.size()) - 1));
     }
 
     unsigned int binarySearch(unsigned int l, unsigned int r) {
@@ -30,13 +30,13 @@ public:
         // position of the middle element
         unsigned int m = floor((l+r)/2);
 
-        if(this->array->at(m) < x) {
+        if(this->array.at(m) < x) {
             // save this as closest
-            this->p = this->array->at(m);
+            this->p = this->array.at(m);
 
             // look to the right
             return binarySearch(m+1, r);
-        } else if(this->array->at(m) > x) {
+        } else if(this->array.at(m) > x) {
             // look to the left
             return binarySearch(l, m-1);
         } else {

@@ -11,7 +11,7 @@ using namespace std;
 
 class BasePred {
 protected:
-    vector<unsigned int> *array;
+    vector<unsigned int> array;
 public:
     /**
      * This is the method you should override when to you pred
@@ -26,7 +26,7 @@ public:
      *
      * @param array
      */
-    void setArray(vector<unsigned int> *array) {
+    void setArray(vector<unsigned int> array) {
         this->array = array;
     }
 

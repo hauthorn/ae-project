@@ -17,11 +17,11 @@ public:
     unsigned int pred(unsigned int x) {
         unsigned int max = 1;
 
-        unsigned int size = this->array->size();
+        unsigned int size = this->array.size();
 
         for (unsigned int i = 0; i < size; ++i) {
-            if (this->array->at(i) > max && this->array->at(i) <= x) {
-                max = this->array->at(i);
+            if (this->array.at(i) > max && this->array.at(i) <= x) {
+                max = this->array.at(i);
             }
         }
 

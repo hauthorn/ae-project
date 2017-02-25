@@ -17,7 +17,7 @@ using namespace std::chrono;
 
 const int N = 900;
 unsigned int MAX = 10000;
-vector<unsigned int> *X;
+vector<unsigned int> X;
 
 int main(int argc, char *argv[]) {
 
@@ -140,10 +140,10 @@ int main(int argc, char *argv[]) {
     for (unsigned int j = MAX; j > 0; j = j/2) {
         // Build an array of integers of size X
         unsigned int tmp = 0;
-        X = new vector<unsigned int>(j);
+        X = vector<unsigned int>(j);
 
         for (unsigned int i = 0; i < j; ++i) {
-            X->push_back(tmp + i);
+            X.push_back(tmp + i);
             tmp = tmp + 10;
         }
 
@@ -191,7 +191,7 @@ int main(int argc, char *argv[]) {
         outfile << j << "\t" << average_secs << endl;
         outfile.close();
 
-        delete X;
+
 
         // write papi results to file
         if(papi_enabled) {

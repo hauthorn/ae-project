@@ -31,12 +31,14 @@ public:
      * build tree
      * @param array
      */
-    void setArray(vector<unsigned int> *array){
-        unsigned int mid = (*array)[array->size()/2];
-        this->pred_root = newNode((*array)[mid]);
-        cout << "Anders er en fed luder" << endl;
-        for (unsigned int i = 1; i < (*array)[array->size()]; i++){
-            pred_root = insert(pred_root, (*array)[i]);
+    void setArray(vector<unsigned int> array){
+        this->array = array;
+        unsigned int mid = (int)ceil(array[array.size()/2]);
+        unsigned int size = array.size();
+        this->pred_root = newNode(mid);
+        cout << "Building BST" << endl;
+        for (unsigned int i = 1; i < array[array.size()]; i++){
+            pred_root = insert(pred_root, array[i]);
         }
         //this->pred_root = sortedArrayToBST(array, 0, (unsigned int)array.size()-1);
     }
@@ -71,7 +73,7 @@ public:
         if (!root)
             return NULL;
 
-        while (root->right) root = root->right;
+        while (root->right != NULL) root = root->right;
 
         return root;
     }
@@ -86,7 +88,12 @@ public:
             cout << "BINARYTREE:: root is NULL, returning." << endl;
             return 0;
         }
-        while (current && current->key != key) {
+
+        while (current) {
+
+            if (current->key == key) {
+                predecessor = current;
+            }
 
             // If key is smaller than root key, go to left subtree
             if (current->key > key)

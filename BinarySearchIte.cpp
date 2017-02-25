@@ -20,16 +20,16 @@ public:
         unsigned int p = 0;
 
         unsigned int l = 0,
-                r = this->array->size()-1;
+                r = this->array.size()-1;
 
         while(l <= r) {
             int m = floor((l+r)/2);
 
-            if(this->array->at(m) < x) {
+            if(this->array.at(m) < x) {
                 // save this as closest
-                p = this->array->at(m);
+                p = this->array.at(m);
                 l = m+1;
-            } else if(this->array->at(m) > x) {
+            } else if(this->array.at(m) > x) {
                 // look to the left
                 r = m-1;
             } else {
