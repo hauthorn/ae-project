@@ -32,11 +32,11 @@ public:
      * @param array
      */
     void setArray(vector<unsigned int> *array){
-        unsigned int mid = array->size()/2;
-        this->pred_root = newNode(array->at(mid));
-
-        for (unsigned int i = 1; i < array->size(); i++){
-            pred_root = insert(pred_root, array->at(i));
+        unsigned int mid = (*array)[array->size()/2];
+        this->pred_root = newNode((*array)[mid]);
+        cout << "Anders er en fed luder" << endl;
+        for (unsigned int i = 1; i < (*array)[array->size()]; i++){
+            pred_root = insert(pred_root, (*array)[i]);
         }
         //this->pred_root = sortedArrayToBST(array, 0, (unsigned int)array.size()-1);
     }
