@@ -31,12 +31,12 @@ public:
      * build tree
      * @param array
      */
-    void setArray(vector<unsigned int> array){
-        unsigned int mid = floor(array.size()/2);
-        this->pred_root = newNode(array[mid]);
+    void setArray(vector<unsigned int> *array){
+        unsigned int mid = array->size()/2;
+        this->pred_root = newNode(array->at(mid));
 
-        for (unsigned int i = 1; i < array.size(); i++){
-            pred_root = insert(pred_root, array[i]);
+        for (unsigned int i = 1; i < array->size(); i++){
+            pred_root = insert(pred_root, array->at(i));
         }
         //this->pred_root = sortedArrayToBST(array, 0, (unsigned int)array.size()-1);
     }
@@ -51,7 +51,7 @@ public:
     }
 
     // Helper function that allocates a new node with
-    // given key and NULL left/right pounsigned inters
+    // given key and NULL left/right unsigned integers
 
     struct TNode* newNode(unsigned int data) {
 
