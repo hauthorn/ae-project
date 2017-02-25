@@ -10,7 +10,8 @@ using namespace std;
 
 class BinarySearchIteArray : public BasePred {
 private:
-    unsigned int *numbers[];
+    unsigned int *numbers;
+    int n;
 public:
 
 
@@ -24,16 +25,16 @@ public:
         unsigned int p = 0;
 
         unsigned int l = 0,
-                r = this->array->size()-1;
+                r = n-1;
 
         while(l <= r) {
             int m = floor((l+r)/2);
 
-            if(this->array->at(m) < x) {
+            if(this->numbers[m] < x) {
                 // save this as closest
-                p = *this->numbers[m];
+                p = this->numbers[m];
                 l = m+1;
-            } else if(*this->numbers[m] > x) {
+            } else if(this->numbers[m] > x) {
                 // look to the left
                 r = m-1;
             } else {
@@ -53,6 +54,9 @@ public:
         for(int i = 0; i < array->size(); i++) {
             numbers[i] = array->at(i);
         }
+
+        n = array->size();
+
     }
 
 };
