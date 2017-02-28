@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <vector>
-#include <numeric>
 
 #include "LinearScanPred.cpp"
 #include "BinarySearchRec.cpp"
@@ -13,10 +12,9 @@
 
 using namespace std;
 
-const int N = 100000;
-vector<unsigned int> X = vector<unsigned int>(N);
+const int N = 250000000;
+vector<unsigned int> *X = new vector<unsigned int>(N);
 const int NUM_TESTS = 100;
-int errorCounter = 0;
 
 int main(int argc, char *argv[]) {
     cout << "Verifying algorithms" << endl;
@@ -25,7 +23,7 @@ int main(int argc, char *argv[]) {
     unsigned int tmp = 0;
 
     for (unsigned int i = 0; i < N; ++i) {
-        X[i] = (tmp + i);
+        X->push_back(tmp + i);
         tmp = tmp + 10;
     }
 
@@ -54,17 +52,14 @@ int main(int argc, char *argv[]) {
             if (previousResult == 0) {
                 previousResult = result;
             }
-
-            cout << "RESULT: " << result << endl;
-
+            
             if (previousResult != result) {
                 fprintf(stderr, "Results differ between algorithms!\n");
-                errorCounter++;
             }
-
+            
             previousResult = result;
         }
     }
-    cout << "\n Errors: " << errorCounter << endl;
+
     return 0;
 }

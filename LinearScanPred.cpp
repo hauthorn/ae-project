@@ -15,7 +15,7 @@ public:
      * @return
      */
     unsigned int pred(unsigned int x) {
-        unsigned int max = 1;
+        unsigned int max = 0;
 
         unsigned int size = this->array.size();
 
