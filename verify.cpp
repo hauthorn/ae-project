@@ -13,7 +13,7 @@
 using namespace std;
 
 const int N = 250000000;
-vector<unsigned int> *X = new vector<unsigned int>(N);
+vector<unsigned int> X(N);
 const int NUM_TESTS = 100;
 
 int main(int argc, char *argv[]) {
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     unsigned int tmp = 0;
 
     for (unsigned int i = 0; i < N; ++i) {
-        X->push_back(tmp + i);
+        X.push_back(tmp + i);
         tmp = tmp + 10;
     }
 
