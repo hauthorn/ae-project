@@ -5,7 +5,6 @@
 #include "BinarySearchRec.cpp"
 #include "BinarySearchIte.cpp"
 #include "BinarySearchTree.cpp"
-#include "BinarySearchIteArray.cpp"
 #include "papi.h"
 #include "fileutils/FileUtils.h"
 #include <chrono>
@@ -67,9 +66,6 @@ int main(int argc, char *argv[]) {
                 cout << "Using binary search tree algorithm" << endl;
                 pred = new BinarySearchTree();
                 algoName = "bintree";
-            } else if(string(argv[i+1]) == "binaryIterativeArray") {
-                cout << "Using binary search iterative with array" << endl;
-                pred = new BinarySearchIteArray();
             }
         } else if (string(argv[i]) == "-n") {
             numberOfRuns = atoi(argv[i + 1]);
