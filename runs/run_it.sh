@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-#mkdir -p cmake-build-debug;
-#cd cmake-build-debug;
+cd ..;
 cmake --build . --target ae_project -- -j 2;
 
 # This fits in main memory of Anders' server
