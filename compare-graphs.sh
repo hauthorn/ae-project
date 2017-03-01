@@ -1,5 +1,8 @@
+#!/usr/bin/env bash
+
 # Comparison of runtime
 gnuplot -e "plot 'runs/$1/$1_binite.txt' using 1:2 smooth frequency with points, \
+                'runs/$1/$1_bintree.txt' using 1:2 smooth frequency with points, \
 				'runs/$1/$1_binrec.txt' using 1:2 smooth frequency with points;
 			MAX=GPVAL_Y_MAX;
     		MIN=GPVAL_Y_MIN;
@@ -7,10 +10,12 @@ gnuplot -e "plot 'runs/$1/$1_binite.txt' using 1:2 smooth frequency with points,
 			set term png size 1200,800;set output 'runs/$1/$1_comparison_runtime.png';
 			set logscale x; set logscale y;
 			plot 'runs/$1/$1_binite.txt' using 1:2 smooth frequency with points, \
+			    'runs/$1/$1_bintree.txt' using 1:2 smooth frequency with points, \
 				'runs/$1/$1_binrec.txt' using 1:2 smooth frequency with points;"
 
 # Comparison of br cn
 gnuplot -e "plot 'runs/$1/$1_binite_br_cn.txt' using 1:2 smooth frequency with points, \
+                'runs/$1/$1_bintree_br_cn.txt' using 1:2 smooth frequency with points, \
 				'runs/$1/$1_binrec_br_cn.txt' using 1:2 smooth frequency with points;
 			MAX=GPVAL_Y_MAX;
     		MIN=GPVAL_Y_MIN;
@@ -18,11 +23,13 @@ gnuplot -e "plot 'runs/$1/$1_binite_br_cn.txt' using 1:2 smooth frequency with p
 			set term png size 1200,800;set output 'runs/$1/$1_comparison_br_cn.png';
 			set logscale x; set logscale y;
 			plot 'runs/$1/$1_binite_br_cn.txt' using 1:2 smooth frequency with points, \
+			    'runs/$1/$1_bintree_br_cn.txt' using 1:2 smooth frequency with points, \
 				'runs/$1/$1_binrec_br_cn.txt' using 1:2 smooth frequency with points;"
 
 
 # Comparison of br msp
 gnuplot -e "plot 'runs/$1/$1_binite_br_msp.txt' using 1:2 smooth frequency with points, \
+                    'runs/$1/$1_binite_br_msp.txt' using 1:2 smooth frequency with points, \
 				'runs/$1/$1_binrec_br_msp.txt' using 1:2 smooth frequency with points;
 			MAX=GPVAL_Y_MAX;
     		MIN=GPVAL_Y_MIN;
