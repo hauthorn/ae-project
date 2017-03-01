@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
     for (unsigned int j = MAX; j > 0; j = j/2) {
         // Build an array of integers of size X
         unsigned int tmp = 0;
-        X = vector<unsigned int>(j);
+        X = vector<unsigned int>();
 
         for (unsigned int i = 0; i < j; ++i) {
             X.push_back(tmp + i);
