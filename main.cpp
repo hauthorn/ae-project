@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
                 events[0] = PAPI_BR_MSP;
             } else if (string(argv[i + 1]) == "l1_dcm") {
                 cout << "Measuring L1 Data cache misses" << endl;
-                events[0] = PAPI_L2_DCM;
+                events[0] = PAPI_L1_DCM;
             } else if (string(argv[i + 1]) == "l2_dcm") {
                 cout << "Measuring L2 Data cache misses" << endl;
                 events[0] = PAPI_L2_DCM;
@@ -108,10 +108,7 @@ int main(int argc, char *argv[]) {
                 events[0] = PAPI_CSR_TOT;
             } else if(string(argv[i+1]) == "br_cn") {
                 events[0] = PAPI_BR_CN;
-            }
-
-
-            else {
+            } else {
                 papi_enabled = false;
             }
         } else if (string(argv[i]) == "-f") {
