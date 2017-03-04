@@ -20,7 +20,28 @@ public:
 
 public:
     unsigned int pred(unsigned int x) {
-        return predecessor(root, x)->key;
+        TNode * node = root;
+
+        while (node) {
+            if (node->key == x) {
+                return x;
+            } else if (node->key < x) {
+                // Two cases, we either traverse down the tree, or we have our pred
+                if (node->right && node->right != nil) {
+                    node = node->right;
+                } else {
+                    return node->key;
+                }
+            } else {
+                // Two cases, we either traverse down the tree, or we didn't have a smaller number in the tree
+                if (node->left && node->left != nil) {
+                    node = node->left;
+                } else {
+                    return node->parent->key;
+                }
+            }
+        }
+
     }
 
     void insert(unsigned int key) {
@@ -55,26 +76,6 @@ public:
         z->red = true;
 
         insertFixup(z);
-    }
-
-    TNode *predecessor(TNode *node, unsigned int key) {
-        if (node->key == key) {
-            return node;
-        } else if (node->key < key) {
-            // Two cases, we either traverse down the tree, or we have our pred
-            if (node->right && node->right != nil) {
-                return predecessor(node->right, key);
-            } else {
-                return node;
-            }
-        } else {
-            // Two cases, we either traverse down the tree, or we didn't have a smaller number in the tree
-            if (node->left && node->left != nil) {
-                return predecessor(node->left, key);
-            } else {
-                return node->parent;
-            }
-        }
     }
 
     /**

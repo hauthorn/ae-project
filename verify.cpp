@@ -12,7 +12,7 @@
 
 using namespace std;
 
-const int N = 100000;
+const int N = 1000000;
 vector<unsigned int> X(N);
 const int NUM_TESTS = 1000;
 
