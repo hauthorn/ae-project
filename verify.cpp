@@ -8,13 +8,13 @@
 #include "LinearScanPred.cpp"
 #include "BinarySearchRec.cpp"
 #include "BinarySearchIte.cpp"
-#include "BinarySearchTree.cpp"
+#include "BinaryTreePred.cpp"
 
 using namespace std;
 
 const int N = 100000;
 vector<unsigned int> X(N);
-const int NUM_TESTS = 100;
+const int NUM_TESTS = 1000;
 
 int main(int argc, char *argv[]) {
     cout << "Verifying algorithms" << endl;
@@ -32,13 +32,15 @@ int main(int argc, char *argv[]) {
     algorithms[0] = new LinearScanPred();
     algorithms[1] = new BinarySearchIte();
     algorithms[2] = new BinarySearchRec();
-    algorithms[3] = new BinarySearchTree();
+    algorithms[3] = new BinaryTreePred();
 
     cout << "Setting arrays" << endl;
 
     for (int j = 0; j < algorithms.size(); ++j) {
         algorithms[j]->setArray(X);
     }
+
+    cout << "Running tests" << endl;
 
     // Run some Pred queries
     for (int k = 0; k < NUM_TESTS; ++k) {
@@ -47,7 +49,6 @@ int main(int argc, char *argv[]) {
         unsigned int previousResult = 0;
 
         for (int i = 0; i < algorithms.size(); ++i) {
-            cout << "Testing algorithm number: " << i << endl;
             unsigned int result = algorithms[i]->pred(search);
             if (previousResult == 0) {
                 previousResult = result;

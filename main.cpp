@@ -4,7 +4,7 @@
 #include "LinearScanPred.cpp"
 #include "BinarySearchRec.cpp"
 #include "BinarySearchIte.cpp"
-#include "BinarySearchTree.cpp"
+#include "BinaryTreePred.cpp"
 #include "papi.h"
 #include "fileutils/FileUtils.h"
 #include <chrono>
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
                 algoName = "binite";
             } else if (string(argv[i + 1]) == "binaryTree") {
                 cout << "Using binary search tree algorithm" << endl;
-                pred = new BinarySearchTree();
+                pred = new BinaryTreePred();
                 algoName = "bintree";
             }
         } else if (string(argv[i]) == "-n") {
