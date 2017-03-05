@@ -34,9 +34,6 @@ int main(int argc, char *argv[]) {
 
     string fileName = to_string(ms.count());
 
-    if (papi_enabled && PAPI_num_counters() < NUM_EVENTS) {
-        fprintf(stderr, "No hardware counters here, or PAPI not supported.\n");
-    }
 
 
     // Initialize based on command line, use linearscanpred as default for now
@@ -122,6 +119,9 @@ int main(int argc, char *argv[]) {
     std::ofstream outfile;
 
 
+    if (papi_enabled && PAPI_num_counters() < NUM_EVENTS) {
+        fprintf(stderr, "No hardware counters here, or PAPI not supported.\n");
+    }
     if (papi_enabled && (ret = PAPI_start_counters(events, NUM_EVENTS)) != PAPI_OK) {
         fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
     }
