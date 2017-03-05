@@ -35,6 +35,8 @@ int main(int argc, char *argv[]) {
     string algoName = "rankSelectNaive";
     int numberOfRuns = 1;
 
+    string q = "rank";
+
     string measure_label;
 
     for (int i = 1; i <= argc; i += 2) {
@@ -89,10 +91,16 @@ int main(int argc, char *argv[]) {
             fileName = string(argv[i+1]);
         } else if (string(argv[i]) == "-max") {
             MAX = atol(argv[i+1]);
+        } else if(string(argv[i]) == "-q") {
+            // what to query for (rank og select)
+            if(string(argv[i+1]) == "select")
+                q = "select";
         }
 
 
     }
+    algoName = algoName +"_" +q;
+
     std::ofstream outfile;
 
     if (papi_enabled && PAPI_num_counters() < NUM_EVENTS) {
@@ -110,8 +118,11 @@ int main(int argc, char *argv[]) {
     for (unsigned int j = MAX; j > 0; j = j/2) {
         X = vector<bool>();
 
+        /**
+         * build array
+         */
         for(int i = 0; i < j; i++)
-            X[i] = rand()%2;
+            X.push_back(rand()%2);
 
         RankSelectNaive *s = new RankSelectNaive(X);
 
@@ -123,7 +134,7 @@ int main(int argc, char *argv[]) {
 
         long_long cpuRead = 0;
 
-        unsigned int rank;
+        int rank;
         // Start timer
         clock_t begin = clock();
 
@@ -135,8 +146,8 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
             }
 
-            int testPred = rand() % MAX;
-            rank+= s->rank(testPred);
+            int position = rand() % j;
+            rank += s->rank(position);
             cpuRead += values[0];
         }
 

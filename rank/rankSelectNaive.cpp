@@ -13,15 +13,28 @@ public:
     RankSelectNaive(vector<bool> v){
         this->v = v;
     }
-    unsigned int rank(unsigned int i){
+    int rank(int i){
         int c = 0;
 
-        for(int j = 0; j <= i; j++) {
+        for(int j = 0; j < i; j++) {
             if(this->v.at(j))
                 c++;
         }
 
         return c;
     }
-    int select(int i);
+
+    int select(int i) {
+        int c = 0;
+
+        for(int j = 0; j <= i; j++) {
+            if(this->v.at(j))
+                c++;
+
+            if(c == i)
+                return j;
+        }
+
+        return 0;
+    }
 };

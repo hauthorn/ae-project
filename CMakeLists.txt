@@ -14,5 +14,5 @@ add_executable(verify ${SOURCE_FILES} verify.cpp)
 add_executable(rank ${SOURCE_FILES_RANK} rank/main.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
 target_link_libraries(${PROJECT_NAME} ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
 
-# this is needed
+# this is needed in order to make papi work
 target_link_libraries(rank ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
