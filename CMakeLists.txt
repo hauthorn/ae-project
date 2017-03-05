@@ -11,8 +11,8 @@ set(SOURCE_FILES BasePred.cpp LinearScanPred.cpp BinarySearchRec.cpp BinaryTreeP
 set(SOURCE_FILES_RANK rank/rankSelectNaive.cpp)
 add_executable(ae_project ${SOURCE_FILES} main.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
 add_executable(verify ${SOURCE_FILES} verify.cpp)
-add_executable(rank ${SOURCE_FILES_RANK} rank/main.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
+add_executable(rankSelect ${SOURCE_FILES_RANK} rank/main.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
 target_link_libraries(${PROJECT_NAME} ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
 
 # this is needed in order to make papi work
-target_link_libraries(rank ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
+target_link_libraries(rankSelect ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
