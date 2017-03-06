@@ -1,5 +1,5 @@
 #include <iostream>
-#include "rankSelectNaive.cpp"
+#include "RankSelectSpace.cpp"
 #include <ctime>
 #include <fstream>
 #include "papi.h"
@@ -16,7 +16,6 @@ unsigned int MAX = 10000;
 vector<bool> X;
 
 int main(int argc, char *argv[]) {
-
     int events[NUM_EVENTS];
     long_long values[NUM_EVENTS];
 
@@ -32,7 +31,7 @@ int main(int argc, char *argv[]) {
     string fileName = to_string(ms.count());
 
 
-    string algoName = "rankSelectNaive";
+    string algoName = "rankSelectSpace";
     int numberOfRuns = 1;
 
     string q = "rank";
@@ -124,7 +123,7 @@ int main(int argc, char *argv[]) {
         for(int i = 0; i < j; i++)
             X.push_back(rand()%2);
 
-        RankSelectNaive *s = new RankSelectNaive(X);
+        RankSelectSpace *s = new RankSelectSpace(X);
 
         cout << "Array size: " << j << endl;
 
@@ -147,10 +146,10 @@ int main(int argc, char *argv[]) {
             }
 
             int position = rand() % j;
-            if(q == "select")
+            /*if(q == "select")
                 rank += s->select(position);
-            else
-                rank += s->rank(position);
+            else*/
+                rank = s->rank(position);
             cpuRead += values[0];
         }
 
@@ -158,7 +157,8 @@ int main(int argc, char *argv[]) {
         // End timer
         clock_t end = clock();
 
-        double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        // TODO USE CLOCKS_PER_SECOND
+        double elapsed_secs = double(end - begin) / 1000;
         double average_secs = elapsed_secs / numberOfRuns;
         cpuRead = cpuRead / numberOfRuns;
         if(papi_enabled)
