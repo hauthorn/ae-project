@@ -146,9 +146,9 @@ int main(int argc, char *argv[]) {
             }
 
             int position = rand() % j;
-            /*if(q == "select")
+            if(q == "select")
                 rank += s->select(position);
-            else*/
+            else
                 rank = s->rank(position);
             cpuRead += values[0];
         }
