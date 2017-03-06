@@ -6,27 +6,24 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    int n = 10000;
+    int n = 1000000;
     vector<bool> X;
 
-        /**
-         * build array
-         */
-        for(int i = 0; i < n; i++)
-            X.push_back(rand()%2);
+    /**
+     * build array
+     */
+    for(int i = 0; i < n; i++)
+        X.push_back(rand() % 2);
 
-        RankSelectSpace *s = new RankSelectSpace(X);
-        RankSelectNaive *naive = new RankSelectNaive(X);
+    RankSelectSpace *s = new RankSelectSpace(X);
+    RankSelectNaive *naive = new RankSelectNaive(X);
 
-        cout << "Array size: " << n << endl;
+    cout << "Array size: " << n << endl;
 
-        for(int t = 0; t < 100; t++) {
-            int position = rand() % n;
-            cout << "s found: " << (s->rank(position)) << " and naive found " << naive->rank(position) << endl;
-        }
-
-
-
+    for(int t = 0; t < 100; t++) {
+        int j = rand()%1000;
+        cout << "s found: " << (s->select(j)) << " and naive found " << naive->select(j) << endl;
+    }
 
     return 0;
 }

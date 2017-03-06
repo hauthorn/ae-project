@@ -27,12 +27,12 @@ public:
     int select(int i) {
         int c = 0;
 
-        for(int j = 0; j <= i; j++) {
+        for(int j = 0; j < v.size(); j++) {
             if(this->v.at(j))
                 c++;
 
             if(c == i)
-                return j;
+                return j+1;
         }
 
         return 0;
