@@ -8,13 +8,13 @@
 #include "LinearScanPred.cpp"
 #include "BinarySearchRec.cpp"
 #include "BinarySearchIte.cpp"
-#include "BinaryTreePred.cpp"
+#include "BinarySearchBFS.cpp"
 
 using namespace std;
 
-const int N = 1000000;
+const int N = 16383; // 2^14 - 1
 vector<unsigned int> X(N);
-const int NUM_TESTS = 1000;
+const int NUM_TESTS = 10000;
 
 int main(int argc, char *argv[]) {
     cout << "Verifying algorithms" << endl;
@@ -32,7 +32,8 @@ int main(int argc, char *argv[]) {
     algorithms[0] = new LinearScanPred();
     algorithms[1] = new BinarySearchIte();
     algorithms[2] = new BinarySearchRec();
-    algorithms[3] = new BinaryTreePred();
+    algorithms[3] = new BinarySearchBFS();
+//    algorithms[3] = new BinaryTreePred();
 
     cout << "Setting arrays" << endl;
 
