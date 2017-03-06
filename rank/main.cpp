@@ -157,8 +157,7 @@ int main(int argc, char *argv[]) {
         // End timer
         clock_t end = clock();
 
-        // TODO USE CLOCKS_PER_SECOND
-        double elapsed_secs = double(end - begin) / 1000;
+        double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double average_secs = elapsed_secs / numberOfRuns;
         cpuRead = cpuRead / numberOfRuns;
         if(papi_enabled)

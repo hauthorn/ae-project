@@ -82,6 +82,8 @@ public:
                 m++;
         }
 
+
+        // prevent memory leak
         if(this->findS(this->findB(i)) == 0 && this->findB(i)==0)
             return m;
 
