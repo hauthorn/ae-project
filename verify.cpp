@@ -1,5 +1,5 @@
 //
-// This tests our algorithms by comparing their results to eachother
+// This tests our algorithms by comparing their results to each other
 //
 
 #include <iostream>
