@@ -168,6 +168,7 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
             }
 
+            // IT14 was run using this: unsigned int testPred = tmp / numberOfRuns;
             unsigned int testPred = rand() % tmp;
             thePred = pred->pred(testPred);
             cpuRead += values[0];
