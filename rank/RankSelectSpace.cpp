@@ -96,8 +96,26 @@ public:
      * @return
      */
     unsigned long select(unsigned long i) {
+        unsigned long l=0, r=this->v.size()-1;
+
+        while(l <= r) {
+            int m = floor((l+r)/2);
+
+            if(this->rank(m) < i) {
+                l = m+1;
+            } else if(this->rank(m) > i) {
+                // look to the left
+                r = m-1;
+            } else {
+                // found actual value
+                return m;
+            }
+        }
+
+        return 0;
+
         // p is the closest block so far
-        unsigned int p = 0;
+        /*unsigned int p = 0;
 
         unsigned int l = 0,r = this->r_s.size()-1;
 
@@ -147,7 +165,7 @@ public:
             j++;
         }
 
-        return 0;
+        return 0;*/
         // then search for the position
 
 
