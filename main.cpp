@@ -5,6 +5,7 @@
 #include "BinarySearchRec.cpp"
 #include "BinarySearchIte.cpp"
 #include "BinaryTreePred.cpp"
+#include "BinarySearchBFS.cpp"
 #include "papi.h"
 #include "fileutils/FileUtils.h"
 #include <chrono>
@@ -63,6 +64,11 @@ int main(int argc, char *argv[]) {
                 cout << "Using binary search tree algorithm" << endl;
                 pred = new BinaryTreePred();
                 algoName = "bintree";
+            }
+            else if (string(argv[i + 1]) == "binaryBFS") {
+                cout << "Using binary search BFS algorithm" << endl;
+                pred = new BinarySearchBFS();
+                algoName = "binbfs";
             }
         } else if (string(argv[i]) == "-n") {
             numberOfRuns = atoi(argv[i + 1]);
@@ -130,17 +136,17 @@ int main(int argc, char *argv[]) {
     system(command.c_str());
 
 
-    for (unsigned int j = MAX; j > 0; j = j/2) {
+    for (unsigned int j = 1024; j <= MAX; j = j+j) {
         // Build an array of integers of size X
         unsigned int tmp = 0;
         X = vector<unsigned int>();
 
-        for (unsigned int i = 0; i < j; ++i) {
+        for (unsigned int i = 0; i < (j - 1); ++i) {
             X.push_back(tmp + i);
             tmp = tmp + 10;
         }
 
-        cout << "Array size: " << j << endl;
+        cout << "Array size: " << j - 1 << endl;
 
         // Set the array
         pred->setArray(X);
