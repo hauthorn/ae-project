@@ -32,6 +32,14 @@ private:
         return floor(i / this->b);
     }
 
+    double findIFromS(int s) {
+        return this->b*this->s*s;
+    }
+
+    double findIFromB(int b) {
+        return this->b*b;
+    }
+
 public:
     RankSelectSpace(vector<bool> v) {
         this->v = v;
@@ -113,61 +121,62 @@ public:
         }
 
         return 0;
+    }
+
+    unsigned long select2(unsigned long i) {
 
         // p is the closest block so far
-        /*unsigned int p = 0;
+        unsigned long pS = 0;
 
-        unsigned int l = 0,r = this->r_s.size()-1;
+        unsigned long l = 0,r = this->r_s.size()-1;
+
+        unsigned long m;
 
         // first binary search for the superblock
         while(l <= r) {
-            int m = floor((l+r)/2);
+            m = floor((l+r)/2);
 
             if(this->r_s.at(m) < i) {
                 // save this as closest
-                p = m;
+                if(m > pS)
+                    pS = m;
+
                 l = m+1;
             } else if(this->r_s.at(m) > i) {
                 // look to the left
                 r = m-1;
             } else {
                 // found actual value
-                p = m;
+                pS = m;
                 break;
             }
         }
 
-        l = p,r = p+this->b;
+        l = pS*this->b,
+                r = pS*this->b+(this->b*this->s);
 
-        // first binary search for the superblock
+        unsigned long pB = 0;
+
+        int dif = i - this->r_s.at(pS);
+
+        // second binary search for the block
         while(l <= r) {
             int m = floor((l+r)/2);
 
-            if(this->r_b.at(m)+this->r_s[p] < i) {
+            if(this->r_b.at(m) < dif) {
                 // save this as closest
-                p = m;
+                pB = m;
                 l = m+1;
-            } else if(this->r_b.at(m)+this->r_s[p] > i) {
+            } else if(this->r_b.at(m)>dif) {
                 // look to the left
                 r = m-1;
             } else {
                 // found actual value
-                p = m;
+                pB = m;
                 break;
             }
         }
 
-        int j = this->b*this->s+p;
-
-        while(j <= this->b*this->s*p+this->b) {
-            if(rank(j) == i)
-                return j;
-            j++;
-        }
-
-        return 0;*/
-        // then search for the position
-
-
+        return this->r_s.at(pB)+(pS*this->s*this->b);
     }
 };

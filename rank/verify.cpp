@@ -21,8 +21,9 @@ int main(int argc, char *argv[]) {
     cout << "Array size: " << n << endl;
 
     for(int t = 0; t < 100; t++) {
-        int j = rand()%1000;
-        cout << "s found: " << (s->select(j)) << " and naive found " << naive->select(j) << endl;
+        unsigned long j = rand()%1000;
+
+        cout << "select2 found: " << (s->select2(j)) << " and select found " << s->select(j) << " for " << j << endl;
     }
 
     return 0;
