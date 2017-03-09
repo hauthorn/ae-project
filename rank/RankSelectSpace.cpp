@@ -45,8 +45,8 @@ public:
         this->v = v;
         //this->b = floor(log2(v.size()));
         //this->s = this->b*floor(log2(v.size()));
-        this->b = 5;
-        this->s = 3;
+        this->b = 128;
+        this->s = 1024;
         // superblock j (with size s)
         // block k (with size b)
 
@@ -63,6 +63,8 @@ public:
 
             // loop through all blocks in superblock
             for(int k = 0; k < this->s; k++) {
+
+                // we want the rank up to this excluding current (first block is always zero)
                 // remember k = k*j
                 this->r_b.push_back(s2);
 
@@ -73,6 +75,8 @@ public:
                     }
                     index++;
                 }
+
+
             }
         }
     }
@@ -152,31 +156,48 @@ public:
             }
         }
 
-        l = pS*this->b,
-                r = pS*this->b+(this->b*this->s);
+        // l is where the superblock start, r is where it ends
+        l = pS*this->s,
+                r = pS*this->s+this->s-1;
 
         unsigned long pB = 0;
 
-        int dif = i - this->r_s.at(pS);
-
         // second binary search for the block
         while(l <= r) {
-            int m = floor((l+r)/2);
+            m = floor((l+r)/2);
 
-            if(this->r_b.at(m) < dif) {
+            unsigned long i2 = this->r_b.at(m) + this->r_s.at(pS);
+
+            if(i2 < i) {
                 // save this as closest
-                pB = m;
+                if(m > pB)
+                    pB = m-1;
                 l = m+1;
-            } else if(this->r_b.at(m)>dif) {
+            } else if(i2 > i) {
                 // look to the left
                 r = m-1;
             } else {
-                // found actual value
-                pB = m;
+                // found the block where this happens (remember it is actually the block before)
+                pB = m-1;
                 break;
             }
         }
 
-        return this->r_s.at(pB)+(pS*this->s*this->b);
+        unsigned long i2 = this->r_b.at(pB) + this->r_s.at(pS);
+
+        pB=(pB)*this->b;
+
+        // find remaining
+        while(i2 < i) {
+            if(this->v.size() == pB)
+                return 0;
+            if(this->v.at(pB))
+                i2++;
+
+            pB++;
+        }
+
+
+        return pB+1;
     }
 };

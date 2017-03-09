@@ -24,15 +24,17 @@ public:
         return c;
     }
 
-    int select(int i) {
-        int c = 0;
+    unsigned long select(unsigned long i) {
+        unsigned long c = 0;
 
-        for(int j = 0; j < v.size(); j++) {
-            if(this->v.at(j))
-                c++;
+        for(unsigned long j = 0; j < v.size(); j++) {
 
             if(c == i)
                 return j+1;
+
+            if(this->v.at(j))
+                c++;
+
         }
 
         return 0;

@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
          * build array
          */
         for(int i = 0; i < j; i++)
-            X.push_back(rand()%2);
+            X.push_back(rand()%2); // set to either true or false
 
         RankSelectSpace *s = new RankSelectSpace(X);
 
