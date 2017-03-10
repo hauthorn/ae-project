@@ -1,6 +1,7 @@
 //
 // Created by anders on 3/10/17.
 //
+#include <iostream>
 
 using namespace std;
 
@@ -49,6 +50,21 @@ void transpose(int **src, int **dst, const int N) {
 }
 
 /**
+ * verified transpose1d
+ * @param src
+ * @param dst
+ * @param N
+ * @param M
+ */
+void transpose1d(int *src, int *dst, const int n) {
+    for(int l = 0; l < n*n; l++) {
+        int i = l / n;
+        int j = l % n;
+        dst[l] = src[n*j+i];
+    }
+}
+
+/**
  * This algorithm multiplies with the transpose in order to avoid cache misses
  * @param a
  * @param b
@@ -90,7 +106,7 @@ int **matrixMultiplySimpleTranspose(int **a, int **b, const int n) {
  * @return
  */
 int *matrixOneDimension(int *a, int *b, const int n) {
-    int *c = new int[n];
+    int *c = new int[n*n];
 
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
@@ -109,5 +125,24 @@ int *matrixOneDimension(int *a, int *b, const int n) {
 }
 
 int *matrixOneDimensionTranspose(int *a, int *b, const int n) {
-    return 0;
+    int *t = new int[n*n]; // transposed matrix
+    int *c = new int[n*n]; // result array
+
+    transpose1d(b,t,n);
+
+    for(int i=0; i < n; i++) {
+        for(int j=0; j < n; j++) {
+            int tmp = 0;
+
+            for(int k=0; k < n; k++) {
+                int aa = a[(n*i)+k];
+                int bb = t[(n*j)+k];
+                tmp += aa*bb;
+            }
+
+            c[n*i+j] = tmp;
+        }
+    }
+
+    return c;
 }

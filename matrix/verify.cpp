@@ -89,7 +89,7 @@ int main() {
     int **r1 = matrixMultiplySimple(a,b,n);
     int **r2 = matrixMultiplySimpleTranspose(a,b,n);
     int *r3 = matrixOneDimension(a1,b1,n);
-    
+    int *r4 = matrixOneDimensionTranspose(a1,b1,n);
 
 
 
@@ -101,6 +101,11 @@ int main() {
 
             if(r2[i][j] != r3[(i*n)+j]) {
                 cout << "algorithm 2 and 3 varies" << endl;
+            }
+
+
+            if(r3[i*n+j] != r4[(i*n)+j]) {
+                cout << "algorithm 3 and 4 varies" << endl;
             }
         }
     }

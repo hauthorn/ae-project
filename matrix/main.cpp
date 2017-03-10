@@ -30,11 +30,14 @@ int main(int argc, char *argv[]) {
     string fileName = to_string(ms.count());
 
 
-    string algoName = "matrixMultiplySimple";
+    // simple
+    string algoName = "simple";
 
     int numberOfRuns = 1;
 
     string measure_label;
+
+    int dimension = 2;
 
     for (int i = 1; i <= argc; i += 2) {
         if (i + 1 >= argc)
@@ -88,6 +91,16 @@ int main(int argc, char *argv[]) {
             fileName = string(argv[i+1]);
         } else if (string(argv[i]) == "-max") {
             MAX = atol(argv[i+1]);
+        } else if(string(argv[i]) == "-a") {
+            if(string(argv[i]) == "simpleTranspose") {
+                algoName = "simpleTranspose";
+            } else if(string(argv[i]) == "1d") {
+                algoName = "1d";
+                dimension = 1;
+            } else if(string(argv[i]) == "1dTranspose") {
+                algoName = "1dTranpose";
+                dimension = 1;
+            }
         }
 
 
@@ -125,28 +138,39 @@ int main(int argc, char *argv[]) {
         a = new int *[j];
         b = new int *[j];
 
+        int *a1 = new int[j*j];
+        int *b1 = new int[j*j];
         double elapsed_secs = 0;
 
         // Run algorithm numberOfRuns times
         for (unsigned int runs = 1; runs <= numberOfRuns; runs++) {
 
-
             // fill array with random numbers (we don't want to measure this)
             for(int i = 0; i < j; i++) {
-                a[i] = new int[j];
+                if(dimension == 2)
+                    a[i] = new int[j];
 
                 for(int k = 0; k < j; k++) {
-                    a[i][k] = rand()%MAX;
+                    if(dimension == 1)
+                        a1[j*i+k] = rand()%MAX;
+                    else
+                        a[i][k] = rand()%MAX;
                 }
             }
 
             for(int i = 0; i <j; i++) {
-                b[i] = new int[j];
+                if(dimension == 2)
+                    b[i] = new int[j];
 
                 for(int k = 0; k < j; k++) {
-                    b[i][k] = rand()%MAX;
+                    if(dimension == 1)
+                        b1[j*i+k] = rand()%MAX;
+                    else
+                        b[i][k] = rand()%MAX;
                 }
             }
+
+
 
             // empty papi counters before measuring multiply
             if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
@@ -157,7 +181,38 @@ int main(int argc, char *argv[]) {
             // Start timer
             clock_t begin = clock();
 
-            int ** c = matrixMultiplySimpleTranspose(a,b,j);
+            int **c;
+            int *c1;
+
+            if(algoName == "simpleTranspose") {
+                // fill array with random numbers (we don't want to measure this)
+                for(int i = 0; i < j; i++) {
+                    a[i] = new int[j];
+
+                    for(int k = 0; k < j; k++) {
+                        a[i][k] = rand()%MAX;
+                    }
+                }
+
+                for(int i = 0; i <j; i++) {
+                    b[i] = new int[j];
+
+                    for(int k = 0; k < j; k++) {
+                        b[i][k] = rand()%MAX;
+                    }
+                }
+
+                c = matrixMultiplySimpleTranspose(a,b,j);
+            } else if(algoName == "1d") {
+                c1 = matrixOneDimension(a1,b1,j);
+            } else if(algoName == "1dTranspose") {
+                c1 = matrixOneDimensionTranspose(a1,b1,j);
+            } else {
+
+                // simple
+                c = matrixMultiplySimple(a,b,j);
+            }
+
 
             if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
                 fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
