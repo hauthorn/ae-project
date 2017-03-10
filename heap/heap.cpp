@@ -71,6 +71,12 @@ public:
 
         minHeapify(array, 0);
 
+        cout << endl << "extract done" << endl;
+        for (int j = 0; j < size_of_array; ++j) {
+            cout << array[j] << " ";
+        }
+        cout << endl;
+
         return min;
     }
 
@@ -79,9 +85,14 @@ public:
      * @param key
      */
     void insert(unsigned int key) {
-        size_of_array++;
-        array[size_of_array] = MAX_VALUE;
+        array[size_of_array++] = MAX_VALUE;
         heapDecreaseKey(size_of_array, key);
+
+        cout << endl << "Insert done" << endl;
+        for (int j = 0; j < size_of_array; ++j) {
+            cout << array[j] << " ";
+        }
+        cout << endl;
     }
 
     /**

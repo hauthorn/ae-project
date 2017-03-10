@@ -12,7 +12,7 @@
 
 using namespace std;
 
-const unsigned int size = 1000;
+const unsigned int size = 10;
 unsigned int* v = new unsigned int[size];
 
 int main() {
@@ -37,7 +37,7 @@ int main() {
 
 
     // Do size / 2 extracts
-    for (int j = 0; j < size / 2; ++j) {
+    for (int j = 0; j < size; ++j) {
         unsigned int preResult = 0;
 
         for (BaseHeap *h : algorithms) {
@@ -54,8 +54,55 @@ int main() {
         }
     }
 
+    for (BaseHeap *h : algorithms) {
+        h->insert(4);
+    }
+
+    for (BaseHeap *h : algorithms) {
+        h->insert(8);
+    }
+
+    for (BaseHeap *h : algorithms) {
+        h->insert(3);
+    }
+
+    for (BaseHeap *h : algorithms) {
+        h->insert(6);
+    }
+
+    for (int j = 0; j < algorithms.size(); j++) {
+        int i = 3;
+        if (algorithms.at(j)->heapExtractMin() != i) {
+            cout << "Not 3\n" << endl;
+        }
+    }
+
+    for (int j = 0; j < algorithms.size(); j++) {
+        int i = 4;
+        if (algorithms.at(j)->heapExtractMin() != i) {
+            cout << "Not 4\n" << endl;
+        }
+    }
+
+    for (int j = 0; j < algorithms.size(); j++) {
+        int i = 6;
+        if (algorithms.at(j)->heapExtractMin() != i) {
+            cout << "Not 6\n" << endl;
+        }
+    }
+
+    for (int j = 0; j < algorithms.size(); j++) {
+        int i = 8;
+        if (algorithms.at(j)->heapExtractMin() != i) {
+            cout << "Not 8\n" << endl;
+        }
+    }
+    
+    
+    return 0;
+
     // Do size / 2 inserts
-    for (int k = 0; k < size / 2; ++k) {
+    for (int k = 0; k < size; ++k) {
         unsigned int value = (unsigned int) distribution(generator);
 
         for (BaseHeap *h : algorithms) {
@@ -64,7 +111,7 @@ int main() {
     }
 
     // Do size / extracts
-    for (int j = 0; j < size / 2; ++j) {
+    for (int j = 0; j < size; ++j) {
         unsigned int preResult = 0;
 
         for (BaseHeap *h : algorithms) {
