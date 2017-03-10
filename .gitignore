@@ -8,3 +8,4 @@ CMakeCache.txt
 Makefile
 .directory
 *.cbp
+verify_heap
