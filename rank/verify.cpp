@@ -3,6 +3,8 @@
 #include "rankSelectNaive.cpp"
 #include <ctime>
 #include "papi.h"
+#include "RankSelectPop.cpp"
+
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -16,6 +18,7 @@ int main(int argc, char *argv[]) {
         X[i] = (rand() % 2);
 
     RankSelectSpace *s = new RankSelectSpace(X);
+    RankSelectPop *p = new RankSelectPop(&X);
     RankSelectNaive *naive = new RankSelectNaive(X);
 
     cout << "Array size: " << n << endl;
@@ -24,8 +27,8 @@ int main(int argc, char *argv[]) {
         unsigned long j = floor(rand()%n/2);
 
         //cout << "select2 found: " << (s->select2(j)) << " and select found " << s->select(j) << " and naive found " << naive->select(j) << " for " << j << endl;
-        unsigned long i = s->select2(j);
-        unsigned long i1 = naive->select(j);
+        unsigned long i = p->rank(j);
+        unsigned long i1 = naive->rank(j);
         if(i != i1) {
             cout << "Algo differs" <<  endl;
         }
