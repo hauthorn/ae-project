@@ -7,16 +7,19 @@
 #include <chrono>
 #include <queue>
 #include "heap.cpp"
+#include "QueueHeap.cpp"
 
 
 using namespace std;
 
+const unsigned int size = 1000;
+unsigned int* v = new unsigned int[size];
+
 int main() {
 
-    unsigned int size = 1000;
-    unsigned int* v = new unsigned int[size];
-
-    priority_queue<unsigned int,vector<unsigned int>,greater<unsigned int> > q;
+    vector<BaseHeap*> algorithms(0);
+    algorithms.push_back(new Heap);
+    algorithms.push_back(new QueueHeap);
 
     unsigned seed = (unsigned int) std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
@@ -25,44 +28,56 @@ int main() {
     for (int i = 0; i < size; i++) {
         unsigned int value = (unsigned int) distribution(generator);
         value += distribution(generator);
-
         v[i] = value;
-        q.push(value);
     }
-    cout << endl;
 
-    Heap* h = new Heap();
+    for (BaseHeap *h : algorithms) {
+        h->buildHeap(v, size);
+    }
 
-    h->buildHeap(v, size);
 
     // Do size / 2 extracts
     for (int j = 0; j < size / 2; ++j) {
-        unsigned int min = h->heapExtractMin();
-        unsigned int expectedMin = q.top();
-        q.pop();
+        unsigned int preResult = 0;
 
-        if (expectedMin != min) {
-            cout << "Expected: " << expectedMin << endl;
-            cout << "Actual: " << min << endl;
+        for (BaseHeap *h : algorithms) {
+            if (preResult == 0) {
+                preResult = h->heapExtractMin();
+            }
+            else {
+                unsigned int min = h->heapExtractMin();
+                if (min != preResult) {
+                    fprintf(stderr, "Results differ between algorithms!\n");
+                }
+                preResult = min;
+            }
         }
     }
 
     // Do size / 2 inserts
     for (int k = 0; k < size / 2; ++k) {
         unsigned int value = (unsigned int) distribution(generator);
-        h->insert(value);
-        q.push(value);
+
+        for (BaseHeap *h : algorithms) {
+            h->insert(value);
+        }
     }
 
     // Do size / extracts
     for (int j = 0; j < size / 2; ++j) {
-        unsigned int min = h->heapExtractMin();
-        unsigned int expectedMin = q.top();
-        q.pop();
+        unsigned int preResult = 0;
 
-        if (expectedMin != min) {
-            cout << "Expected: " << expectedMin << endl;
-            cout << "Actual: " << min << endl;
+        for (BaseHeap *h : algorithms) {
+            if (preResult == 0) {
+                preResult = h->heapExtractMin();
+            }
+            else {
+                unsigned int min = h->heapExtractMin();
+                if (min != preResult) {
+                    fprintf(stderr, "Results differ between algorithms!\n");
+                }
+                preResult = min;
+            }
         }
     }
 

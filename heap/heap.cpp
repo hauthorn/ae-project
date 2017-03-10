@@ -1,14 +1,10 @@
 #include <iostream>
-#include <limits>
+#include "BaseHeap.cpp"
 
 using namespace std;
 
-class Heap {
-public:
-    unsigned int *array;
-    unsigned int size_of_array;
-    const unsigned int MAX_VALUE = numeric_limits<unsigned int>::max();
-
+class Heap : public BaseHeap {
+private:
     void minHeapify(unsigned int *array, unsigned int i) {
         unsigned int l = left(i);
         unsigned int r = right(i);
@@ -32,17 +28,6 @@ public:
             array[smallest] = temp;
             minHeapify(array, smallest);
         }
-    }
-
-    unsigned int heapExtractMin() {
-        unsigned int min = array[0];
-
-        array[0] = array[size_of_array-1];
-        size_of_array = size_of_array - 1;
-
-        minHeapify(array, 0);
-
-        return min;
     }
 
     unsigned int left(unsigned int i) {
@@ -77,12 +62,33 @@ public:
         }
     }
 
+public:
+    unsigned int heapExtractMin() {
+        unsigned int min = array[0];
+
+        array[0] = array[size_of_array - 1];
+        size_of_array = size_of_array - 1;
+
+        minHeapify(array, 0);
+
+        return min;
+    }
+
+    /**
+     * Inserts the key at the bottom of the heap, and starts bubling up
+     * @param key
+     */
     void insert(unsigned int key) {
         size_of_array++;
         array[size_of_array] = MAX_VALUE;
         heapDecreaseKey(size_of_array, key);
     }
 
+    /**
+     * Constructs our heap from the array
+     * @param array
+     * @param size
+     */
     void buildHeap(unsigned int *array, unsigned int size) {
         this->size_of_array = size;
 
