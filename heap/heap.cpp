@@ -5,31 +5,6 @@ using namespace std;
 
 class Heap : public BaseHeap {
 private:
-    void minHeapify(unsigned int *array, unsigned int i) {
-        unsigned int l = left(i);
-        unsigned int r = right(i);
-        unsigned int smallest;
-
-        unsigned int left = array[l];
-        unsigned int index = array[i];
-        unsigned int right = array[r];
-
-        if (l < size_of_array && left < index) {
-            smallest = l;
-        } else {
-            smallest = i;
-        }
-        if (r < size_of_array && right < array[smallest]) {
-            smallest = r;
-        }
-        if (smallest != i) {
-            unsigned int temp = array[i];
-            array[i] = array[smallest];
-            array[smallest] = temp;
-            minHeapify(array, smallest);
-        }
-    }
-
     unsigned int left(unsigned int i) {
         return 2 * i + 1;
     }
@@ -62,18 +37,30 @@ private:
         }
     }
 
-public:
-    unsigned int heapExtractMin() {
-        unsigned int min = array[0];
+protected:
+    void minHeapify(unsigned int i) {
+        unsigned int l = left(i);
+        unsigned int r = right(i);
+        unsigned int smallest;
 
-        array[0] = array[size_of_array - 1];
-        size_of_array = size_of_array - 1;
-
-        minHeapify(array, 0);
-
-        return min;
+        if (l < size_of_array && array[l] < array[i]) {
+            smallest = l;
+        } else {
+            smallest = i;
+        }
+        if (r < size_of_array && array[r] < array[smallest]) {
+            smallest = r;
+        }
+        if (smallest != i) {
+            unsigned int temp = array[i];
+            array[i] = array[smallest];
+            array[smallest] = temp;
+            minHeapify(smallest);
+        }
     }
 
+
+public:
     /**
      * Inserts the key at the bottom of the heap, and starts bubling up
      * @param key
@@ -91,11 +78,10 @@ public:
      */
     void buildHeap(unsigned int *array, unsigned int size) {
         this->size_of_array = size;
+        this->array = array;
 
         for (int i = size / 2; i >= 0; i--) {
-            minHeapify(array, (unsigned int) i);
+            minHeapify((unsigned int) i);
         }
-
-        this->array = array;
     }
 };

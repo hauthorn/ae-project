@@ -10,8 +10,13 @@ class QueueHeap: public BaseHeap {
 private:
     priority_queue<unsigned int,vector<unsigned int>,greater<unsigned int> > q;
 
+protected:
+    void minHeapify(unsigned int i) {
+        // Nothing
+    }
+
 public:
-    unsigned int heapExtractMin() {
+    unsigned int heapExtractMin() override {
         unsigned int min = q.top();
         q.pop();
         return min;

@@ -14,9 +14,22 @@ protected:
     unsigned int *array;
     unsigned int size_of_array;
     const unsigned int MAX_VALUE = numeric_limits<unsigned int>::max();
+
+protected:
+    virtual void minHeapify(unsigned int i) = 0;
+
 public:
 
-    virtual unsigned int heapExtractMin() = 0;
+    virtual unsigned int heapExtractMin() {
+        unsigned int min = array[0];
+
+        array[0] = array[size_of_array - 1];
+        size_of_array = size_of_array - 1;
+
+        minHeapify(0);
+
+        return min;
+    }
 
     virtual void insert(unsigned int key) = 0;
 
