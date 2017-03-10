@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -6,6 +7,7 @@ class Heap {
 public:
     unsigned int *array;
     unsigned int size_of_array;
+    unsigned int max = numeric_limits<int>::max();
 
     void minHeapify(unsigned int *array, unsigned int i) {
         unsigned int l = left(i);
@@ -53,6 +55,16 @@ public:
 
     unsigned int parent(unsigned int i) {
         return i / 2;
+    }
+
+    void heapDecreaseKey(unsigned int *pInt, unsigned int array, unsigned int i) {
+
+    }
+
+    void minHeapInsert(unsigned int *array, unsigned int i) {
+        size_of_array++;
+        array[size_of_array] = max;
+        heapDecreaseKey(array, size_of_array, i);
     }
 
     void buildHeap(unsigned int *array, unsigned int size) {
