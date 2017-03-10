@@ -6,12 +6,25 @@
 #include <queue>
 #include "BaseHeap.cpp"
 
-class QueueHeap: public BaseHeap {
+class QueueHeap : public BaseHeap {
 private:
-    priority_queue<unsigned int,vector<unsigned int>,greater<unsigned int> > q;
+    priority_queue<unsigned int, vector<unsigned int>, greater<unsigned int> > q;
 
 protected:
     void minHeapify(unsigned int i) {
+        // Nothing
+    }
+
+    void insert(unsigned int key) override {
+        q.push(key);
+    }
+
+    // Not used
+    unsigned int parent(unsigned int index) override {
+        return 0;
+    }
+
+    void heapDecreaseKey(unsigned int index, unsigned int key) override {
         // Nothing
     }
 
@@ -20,10 +33,6 @@ public:
         unsigned int min = q.top();
         q.pop();
         return min;
-    }
-
-    void insert(unsigned int key) {
-        q.push(key);
     }
 
     void buildHeap(unsigned int *array, unsigned int size) {

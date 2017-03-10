@@ -17,11 +17,10 @@ const unsigned int size = 10;
 unsigned int* v = new unsigned int[size];
 
 int main() {
-
     vector<BaseHeap*> algorithms(0);
     algorithms.push_back(new Heap);
     algorithms.push_back(new QueueHeap);
-    algorithms.push_back(new KaryHeap(4));
+//    algorithms.push_back(new KaryHeap(4));
 
     unsigned seed = (unsigned int) std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
