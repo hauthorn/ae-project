@@ -120,9 +120,12 @@ int main(int argc, char *argv[]) {
     system(command.c_str());
 
 
-    for (unsigned int j = MAX; j > 0; j = j/2) {
+    for (unsigned int j = MAX; j > 1; j = j/2) {
         int **a;
         int **b;
+
+        if(j <= 2)
+            break;
 
         // fill matrices with random numbers
         cout << "Array size: " << j << endl;
