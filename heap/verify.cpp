@@ -35,11 +35,30 @@ int main() {
 
     h->buildHeap(v, size);
 
-    while (!q.empty()) {
+    // Do size / 2 extracts
+    for (int j = 0; j < size / 2; ++j) {
         unsigned int min = h->heapExtractMin();
         unsigned int expectedMin = q.top();
         q.pop();
 
+        if (expectedMin != min) {
+            cout << "Expected: " << expectedMin << endl;
+            cout << "Actual: " << min << endl;
+        }
+    }
+
+    // Do size / 2 inserts
+    for (int k = 0; k < size / 2; ++k) {
+        unsigned int value = (unsigned int) distribution(generator);
+        h->insert(value);
+        q.push(value);
+    }
+
+    // Do size / extracts
+    for (int j = 0; j < size / 2; ++j) {
+        unsigned int min = h->heapExtractMin();
+        unsigned int expectedMin = q.top();
+        q.pop();
 
         if (expectedMin != min) {
             cout << "Expected: " << expectedMin << endl;

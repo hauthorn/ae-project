@@ -7,7 +7,7 @@ class Heap {
 public:
     unsigned int *array;
     unsigned int size_of_array;
-    unsigned int max = numeric_limits<int>::max();
+    const unsigned int MAX_VALUE = numeric_limits<unsigned int>::max();
 
     void minHeapify(unsigned int *array, unsigned int i) {
         unsigned int l = left(i);
@@ -54,17 +54,33 @@ public:
     }
 
     unsigned int parent(unsigned int i) {
-        return i / 2;
+        return (i - 1) / 2;
     }
 
-    void heapDecreaseKey(unsigned int *pInt, unsigned int array, unsigned int i) {
+    /**
+     * Decrease the key for this index
+     * PRECONDITION: Key must be smaller than the value at index
+     * @param index
+     * @param key
+     */
+    void heapDecreaseKey(unsigned int index, unsigned int key) {
+        array[index] = key;
 
+        // Continue upwards until the parent is smaller than key
+        while (index > 0 && array[parent(index)] > key) {
+            // exchange
+            unsigned int tmp = array[index];
+            array[index] = array[parent(index)];
+            array[parent(index)] = tmp;
+            // Decrease index
+            index = parent(index);
+        }
     }
 
-    void minHeapInsert(unsigned int *array, unsigned int i) {
+    void insert(unsigned int key) {
         size_of_array++;
-        array[size_of_array] = max;
-        heapDecreaseKey(array, size_of_array, i);
+        array[size_of_array] = MAX_VALUE;
+        heapDecreaseKey(size_of_array, key);
     }
 
     void buildHeap(unsigned int *array, unsigned int size) {
