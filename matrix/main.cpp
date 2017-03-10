@@ -92,13 +92,13 @@ int main(int argc, char *argv[]) {
         } else if (string(argv[i]) == "-max") {
             MAX = atol(argv[i+1]);
         } else if(string(argv[i]) == "-a") {
-            if(string(argv[i]) == "simpleTranspose") {
+            if(string(argv[i+1]) == "simpleTranspose") {
                 algoName = "simpleTranspose";
-            } else if(string(argv[i]) == "1d") {
+            } else if(string(argv[i+1]) == "1d") {
                 algoName = "1d";
                 dimension = 1;
-            } else if(string(argv[i]) == "1dTranspose") {
-                algoName = "1dTranpose";
+            } else if(string(argv[i+1]) == "1dTranspose") {
+                algoName = "1dTranspose";
                 dimension = 1;
             }
         }
@@ -124,11 +124,22 @@ int main(int argc, char *argv[]) {
         int **a;
         int **b;
 
+
+
+        int *a1;
+
+        a1 = new int[j*j];
+        int *b1;
+
+        b1 = new int[j*j];
+
+
         if(j <= 2)
             break;
 
         // fill matrices with random numbers
         cout << "Array size: " << j << endl;
+        cout << "Algorithm: " << algoName << " dimension " << dimension << endl;
 
         if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
             fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
@@ -141,8 +152,6 @@ int main(int argc, char *argv[]) {
         a = new int *[j];
         b = new int *[j];
 
-        int *a1 = new int[j*j];
-        int *b1 = new int[j*j];
         double elapsed_secs = 0;
 
         // Run algorithm numberOfRuns times
@@ -188,30 +197,12 @@ int main(int argc, char *argv[]) {
             int *c1;
 
             if(algoName == "simpleTranspose") {
-                // fill array with random numbers (we don't want to measure this)
-                for(int i = 0; i < j; i++) {
-                    a[i] = new int[j];
-
-                    for(int k = 0; k < j; k++) {
-                        a[i][k] = rand()%MAX;
-                    }
-                }
-
-                for(int i = 0; i <j; i++) {
-                    b[i] = new int[j];
-
-                    for(int k = 0; k < j; k++) {
-                        b[i][k] = rand()%MAX;
-                    }
-                }
-
                 c = matrixMultiplySimpleTranspose(a,b,j);
             } else if(algoName == "1d") {
                 c1 = matrixOneDimension(a1,b1,j);
             } else if(algoName == "1dTranspose") {
                 c1 = matrixOneDimensionTranspose(a1,b1,j);
             } else {
-
                 // simple
                 c = matrixMultiplySimple(a,b,j);
             }
@@ -224,7 +215,10 @@ int main(int argc, char *argv[]) {
             elapsed_secs += double(clock() - begin) / CLOCKS_PER_SEC;
             cpuRead += values[0];
 
-            rank = c[1][1];
+            if(dimension == 1)
+                rank = c1[1];
+            else
+                rank = c[1][1];
         }
 
         double average_secs = elapsed_secs / numberOfRuns;
@@ -232,7 +226,7 @@ int main(int argc, char *argv[]) {
         if(papi_enabled)
             cout << papi_label << ": " << cpuRead << endl;
 
-        cout << "rank" << rank;// just to make sure it is not skipped by the compiler
+        cout << "out" << rank;// just to make sure it is not skipped by the compiler
         cout << endl;
 
         // Output to tsv file
