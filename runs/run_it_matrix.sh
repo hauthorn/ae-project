@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 cd ..;
-cmake --build . --target rankSelect -- -j 2;
+cmake --build . --target matrixMultiply -- -j 2;
 
 # This fits in main memory of Anders' server
 ./matrixMultiply -a simple -n 100 -max 512 -m br_msp -f $1;
