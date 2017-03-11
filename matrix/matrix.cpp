@@ -101,7 +101,7 @@ int **matrixMultiplySimpleTranspose(int **a, int **b, const int n) {
 /**
  * This algorithm multiplies with the transpose in order to avoid cache misses
  * @param a
- * @param b
+ * @param b (transposed)
  * @param n
  * @return
  */

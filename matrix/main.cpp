@@ -225,8 +225,9 @@ int main(int argc, char *argv[]) {
                 rank = c[1][1];
         }
 
-        double average_secs = elapsed_secs / numberOfRuns;
+        long average_secs = elapsed_secs / numberOfRuns;
         cpuRead = cpuRead / numberOfRuns;
+
         if(papi_enabled)
             cout << papi_label << ": " << cpuRead << endl;
 
