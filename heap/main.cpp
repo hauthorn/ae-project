@@ -5,15 +5,16 @@
 #include "papi.h"
 #include "../fileutils/FileUtils.h"
 #include <chrono>
+#include "KaryHeap.cpp"
+#include "QueueHeap.cpp"
 
 #define NUM_EVENTS 1
 
 using namespace std;
 using namespace std::chrono;
 
-const int N = 900;
-unsigned int MAX = 100;
-vector<unsigned int> X;
+unsigned int MAX = 100000;
+unsigned int* X;
 
 int main(int argc, char *argv[]) {
 
@@ -31,9 +32,9 @@ int main(int argc, char *argv[]) {
 
     string fileName = to_string(ms.count());
 
-    // Initialize based on command line, use linearscanpred as default for now
-
-    string algoName = "heap";
+    // Initialize based on command line, use binary heap as default for now
+    BaseHeap *heap = new BinaryHeap();
+    string algoName = "binaryHeap";
     int numberOfRuns = 1;
 
     string measure_label;
@@ -42,7 +43,29 @@ int main(int argc, char *argv[]) {
         if (i + 1 >= argc)
             break;
 
-        if (string(argv[i]) == "-n") {
+        if (string(argv[i]) == "-a") {
+            if (string(argv[i + 1]) == "binaryheap") {
+                cout << "Using binary heap algorithm" << endl;
+                heap = new BinaryHeap();
+            } else if (string(argv[i + 1]) == "3heap") {
+                cout << "Using 3-ary heap" << endl;
+                heap = new KaryHeap(3);
+                algoName = "3heap";
+            } else if (string(argv[i + 1]) == "4heap") {
+                cout << "Using 4-ary heap" << endl;
+                heap = new KaryHeap(4);
+                algoName = "4heap";
+            } else if (string(argv[i + 1]) == "7heap") {
+                cout << "Using 7-ary heap" << endl;
+                heap = new KaryHeap(7);
+                algoName = "7heap";
+            }
+            else if (string(argv[i + 1]) == "queueheap") {
+                cout << "Using queue heap" << endl;
+                heap = new QueueHeap();
+                algoName = "queueheap";
+            }
+        } else if (string(argv[i]) == "-n") {
             numberOfRuns = atoi(argv[i + 1]);
             cout << "Number of runs: " << numberOfRuns << endl;
         } else if (string(argv[i]) == "-m") {
@@ -107,19 +130,22 @@ int main(int argc, char *argv[]) {
     string command =  "mkdir -p " + fileName;
     system(command.c_str());
 
-    int temp = 0;
 
-    for (unsigned int j = MAX; j > 0; j = j/2) {
-        X = vector<unsigned int>();
+    for (unsigned int j = 1024; j <= MAX; j = j+j) {
+        // Build an array of integers of size j
+        unsigned int tmp = 0;
+        X = new unsigned int[j];
 
-
-        for (unsigned int i = 0; i < j; ++i) {
-            X.push_back(temp + i);
-            temp = temp + 10;
+        for (unsigned int i = 0; i < (j - 1); ++i) {
+            X[i] = tmp + i;
+            tmp = tmp + 10;
         }
 
-
         cout << "Array size: " << j << endl;
+
+        // Set the array
+        heap->buildHeap(X, j);
+        int theMin = 0;
 
         if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
             fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
@@ -128,7 +154,8 @@ int main(int argc, char *argv[]) {
         long_long cpuRead = 0;
 
         // Start timer
-        clock_t begin = clock();
+        typedef std::chrono::high_resolution_clock Clock;
+        auto begin = Clock::now();
 
         // Run algorithm numberOfRuns times
         for (unsigned int runs = 1; runs <= numberOfRuns; runs++) {
@@ -137,14 +164,15 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
             }
 
+            // IT14 was run using this: unsigned int testPred = tmp / numberOfRuns;
+            theMin = heap->heapExtractMin();
             cpuRead += values[0];
         }
 
-
         // End timer
-        clock_t end = clock();
+        auto end = Clock::now();
 
-        double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        double elapsed_secs = (end - begin).count();
         double average_secs = elapsed_secs / numberOfRuns;
         cpuRead = cpuRead / numberOfRuns;
         if(papi_enabled)
@@ -152,12 +180,12 @@ int main(int argc, char *argv[]) {
 
         cout << endl;
 
+        cout << "Last min: " << theMin << endl;
+
         // Output to tsv file
         outfile.open(FileUtils::getRuntimeFileName(fileName, algoName), std::ios_base::app);
         outfile << j << "\t" << average_secs << endl;
         outfile.close();
-
-
 
         // write papi results to file
         if(papi_enabled) {
@@ -165,6 +193,8 @@ int main(int argc, char *argv[]) {
             outfile << j << "\t" << cpuRead << endl;
             outfile.close();
         }
+
+        delete X;
     }
 
     // Print the plot
@@ -178,7 +208,6 @@ int main(int argc, char *argv[]) {
                 "gnuplot -e \"set term png;set output '" + FileUtils::getOutputName(papi_label, fileName, algoName) + "'; plot '" + FileUtils::getPapiFileName(papi_label, fileName, algoName) + "' with points\"");
         system(call.c_str());
     }
-
 
     return 0;
 }
