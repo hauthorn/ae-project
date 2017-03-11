@@ -2,7 +2,6 @@
 // Created by hauthorn on 3/10/17.
 //
 #include <limits>
-#include <array>
 
 using namespace std;
 
@@ -21,31 +20,7 @@ protected:
 
     virtual unsigned int parent(unsigned int index) = 0;
 
-    virtual /**
-     * Decrease the key for this index
-     * PRECONDITION: Key must be smaller than the value at index
-     * @param index
-     * @param key
-     */
-//    void heapDecreaseKey(unsigned int index, unsigned int key) {
-//        array[index] = key;
-//
-//        unsigned int p = parent(index);
-//
-//        // Continue upwards until we reach root
-//        while (p >= 0 && p < size_of_array) {
-//            // the parent is bigger than key
-//            if (array[p] > key) {
-//                swap(array[index], array[p]);
-//                index = p;
-//                p = parent(index);
-//            }
-//            else
-//                break;
-//        }
-//    }
-
-    void heapDecreaseKey(unsigned int index, unsigned int key) {
+    virtual void heapDecreaseKey(unsigned int index, unsigned int key) {
         array[index] = key;
 
         // Continue upwards until the parent is smaller than key
