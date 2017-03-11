@@ -16,10 +16,10 @@ protected:
         unsigned int smallest = index;
         unsigned int indexVal = array[index];
 
-        unsigned int c_1 = 3 * index + 1;
-        unsigned int c_2 = 3 * index + 2;
-        unsigned int c_3 = 3 * index + 3;
-        unsigned int c_4 = 4 * index + 4;
+        unsigned int c_1 = K * index + 1;
+        unsigned int c_2 = K * index + 2;
+        unsigned int c_3 = K * index + 3;
+        unsigned int c_4 = K * index + 4;
 
         if (c_1 < size_of_array && array[c_1] < array[smallest]) {
             smallest = c_1;

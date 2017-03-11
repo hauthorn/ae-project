@@ -15,9 +15,9 @@ protected:
     void minHeapify(unsigned int index) {
         unsigned int smallest = index;
 
-        unsigned int l = 3 * index + 1;
-        unsigned int m = 3 * index + 2;
-        unsigned int r = 3 * index + 3;
+        unsigned int l = K * index + 1;
+        unsigned int m = K * index + 2;
+        unsigned int r = K * index + 3;
 
         unsigned int indexVal = array[index];
 

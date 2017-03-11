@@ -9,6 +9,8 @@
 #include "QueueHeap.cpp"
 #include "KaryHeap.cpp"
 #include "TernaryHeap.cpp"
+#include "QuadHeap.cpp"
+#include "SevenHeap.cpp"
 
 
 using namespace std;
@@ -20,6 +22,8 @@ int main() {
     vector<BaseHeap*> algorithms(0);
     algorithms.push_back(new BinaryHeap);
     algorithms.push_back(new TernaryHeap);
+    algorithms.push_back(new QuadHeap);
+    algorithms.push_back(new SevenHeap);
     algorithms.push_back(new KaryHeap(4));
     algorithms.push_back(new QueueHeap);
 

@@ -8,7 +8,7 @@ find_package(PAPI REQUIRED)
 
 set(SOURCE_FILES BasePred.cpp LinearScanPred.cpp BinarySearchRec.cpp BinaryTreePred.cpp RedBlackTree.cpp)
 set(SOURCE_FILES_RANK rank/RankSelectSpace.cpp)
-set(SOURCE_FILES_HEAP heap/Binaryheap.cpp heap/KaryHeap.cpp heap/BaseHeap.cpp heap/QueueHeap.cpp heap/TernaryHeap.cpp)
+set(SOURCE_FILES_HEAP heap/Binaryheap.cpp heap/KaryHeap.cpp heap/BaseHeap.cpp heap/QueueHeap.cpp heap/TernaryHeap.cpp heap/QuadHeap.cpp heap/SevenHeap.cpp)
 
 add_executable(ae_project ${SOURCE_FILES} main.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
 add_executable(verify ${SOURCE_FILES} verify.cpp)
