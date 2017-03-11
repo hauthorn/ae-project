@@ -9,10 +9,10 @@
 using namespace std;
 
 int main() {
-    bool printM = true;
+    bool printM = false;
 
     int **a, **b, *a1, *b1;
-    int n = 32;
+    int n = 1024;
 
     a = new int *[n];
     b = new int *[n];
@@ -93,6 +93,9 @@ int main() {
 
 
 
+    /**
+     * verify algorithms
+     */
     for(int i = 0; i<n; i++) {
         for(int j = 0; j < n; j++) {
             if(r1[i][j] != r2[i][j]) {
@@ -104,7 +107,7 @@ int main() {
             }
 
 
-            if(r3[i*n+j] != r4[(i*n)+j]) {
+            if(r3[(i*n)+j] != r4[(i*n)+j]) {
                 cout << "algorithm 3 and 4 varies" << endl;
             }
         }

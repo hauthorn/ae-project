@@ -8,6 +8,7 @@ using namespace std;
 
 /**
  * multiply two matrices using standard implementation from CLRS (page 371)
+ * This should be used as verification algorithm
  * @param a
  * @param b
  * @param columns
@@ -89,6 +90,32 @@ int **matrixMultiplySimpleTranspose(int **a, int **b, const int n) {
 
             for (int k = 0; k < n; k++)
                 temp += a[i][k]*t[j][k];
+
+            c[i][j] = temp;
+        }
+    }
+
+    return c;
+}
+
+/**
+ * This algorithm multiplies with the transpose in order to avoid cache misses
+ * @param a
+ * @param b
+ * @param n
+ * @return
+ */
+int **matrixMultiplySimpleWithTransposed(int **a, int **b, const int n) {
+    int** c = 0;
+    c = new int*[n];
+
+    for(int i=0; i < n; i++) {
+        c[i] = new int[n];
+        for (int j = 0; j < n; j++) {
+            int temp = 0;
+
+            for (int k = 0; k < n; k++)
+                temp += a[i][k]*b[j][k];
 
             c[i][j] = temp;
         }

@@ -100,6 +100,8 @@ int main(int argc, char *argv[]) {
             } else if(string(argv[i+1]) == "1dTranspose") {
                 algoName = "1dTranspose";
                 dimension = 1;
+            } else if(string(argv[i+1]) == "simpleWithTransposed") {
+                algoName = "simpleWithTransposed";
             }
         }
 
@@ -150,7 +152,7 @@ int main(int argc, char *argv[]) {
         a = new int *[j];
         b = new int *[j];
 
-        double elapsed_secs = 0;
+        unsigned long elapsed_secs = 0;
 
         // Run algorithm numberOfRuns times
         for (unsigned int runs = 1; runs <= numberOfRuns; runs++) {
@@ -189,7 +191,8 @@ int main(int argc, char *argv[]) {
 
 
             // Start timer
-            clock_t begin = clock();
+            typedef std::chrono::high_resolution_clock Clock;
+            auto begin = Clock::now();
 
             int **c;
             int *c1;
@@ -199,7 +202,10 @@ int main(int argc, char *argv[]) {
             } else if(algoName == "1d") {
                 c1 = matrixOneDimension(a1,b1,j);
             } else if(algoName == "1dTranspose") {
-                c1 = matrixOneDimensionTranspose(a1,b1,j);
+                c1 = matrixOneDimensionTranspose(a1, b1, j);
+
+            } else if(algoName == "simpleWithTransposed") {
+                c = matrixMultiplySimpleWithTransposed(a,b,j);
             } else {
                 // simple
                 c = matrixMultiplySimple(a,b,j);
@@ -210,7 +216,7 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
             }
 
-            elapsed_secs += double(clock() - begin) / CLOCKS_PER_SEC;
+            elapsed_secs += chrono::duration_cast<chrono::nanoseconds>(Clock::now()-begin).count();
             cpuRead += values[0];
 
             if(dimension == 1)
