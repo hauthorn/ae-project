@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
         unsigned int tmp = 0;
         X = new unsigned int[j];
 
-        for (unsigned int i = 0; i < (j - 1); ++i) {
+        for (unsigned int i = 0; i < j; ++i) {
             X[i] = tmp + i;
             tmp = tmp + 10;
         }
@@ -164,8 +164,16 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
             }
 
-            // IT14 was run using this: unsigned int testPred = tmp / numberOfRuns;
-            theMin = heap->heapExtractMin();
+            // Do j / 2 extracts
+            for (int i = 0; i < j / 2; ++i) {
+                theMin = heap->heapExtractMin();
+            }
+
+            // Do j / 2 inserts
+            for (int i = 0; i < j / 2; ++i) {
+                heap->insert(rand() % tmp + 1); // Insert values less than the known max
+            }
+
             cpuRead += values[0];
         }
 
