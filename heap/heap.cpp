@@ -65,18 +65,9 @@ private:
 public:
     unsigned int heapExtractMin() {
         unsigned int min = array[0];
-
         array[0] = array[size_of_array - 1];
         size_of_array = size_of_array - 1;
-
         minHeapify(array, 0);
-
-        cout << endl << "extract done" << endl;
-        for (int j = 0; j < size_of_array; ++j) {
-            cout << array[j] << " ";
-        }
-        cout << endl;
-
         return min;
     }
 
@@ -85,14 +76,9 @@ public:
      * @param key
      */
     void insert(unsigned int key) {
-        array[size_of_array++] = MAX_VALUE;
+        array[size_of_array] = MAX_VALUE;
         heapDecreaseKey(size_of_array, key);
-
-        cout << endl << "Insert done" << endl;
-        for (int j = 0; j < size_of_array; ++j) {
-            cout << array[j] << " ";
-        }
-        cout << endl;
+        size_of_array++;
     }
 
     /**
