@@ -172,3 +172,58 @@ int *matrixOneDimensionTranspose(int *a, int *b, const int n) {
 
     return c;
 }
+
+class SquareMatrixMultiply {
+private:
+    int **a, **b, **c;
+    int n;
+public:
+    /**'
+     *
+     * @param a int[n][n]
+     * @param b int[n][n]
+     * @param n should be power of 2
+     */
+    SquareMatrixMultiply(int **a, int **b, int n) {
+        this->a = a;
+        this->b = b;
+        this->n = n;
+        this->c[n][n];
+
+        for(int i = 0; i < n; i++)
+            this->c[i] = new int[n];
+    }
+
+    /**
+     *
+     * @param x1 left most
+     * @param x2 right most
+     * @param y1 upper most
+     * @param y2 lower most
+     * @return
+     */
+    int recurse(int x1, int x2, int y1, int y2) {
+        if(x2 == x1) {
+            // access actual matrices here
+            this->c[x1][y1] = this->a[x1][y1]*this->b[x1][y1];
+        } else {
+
+
+
+            this->recurse(x1, x2/2, y1, y2/2);
+            this->recurse(x2/2,x2,y1,y2/2);
+            this->recurse(x1/2,x2/2,y2/2,y2);
+            this->recurse(x2/2,x2,y2/2,y2);
+        }
+    }
+
+    void printMatrix() {
+        for(int i = 0; i < this->n; i++) {
+            for(int j = 0; j < this->n; j++) {
+                cout << this->c[i][j] <<" ";
+            }
+
+            cout << endl;
+        }
+    }
+};

@@ -113,6 +113,11 @@ int main() {
         }
     }
 
+    SquareMatrixMultiply *m = new SquareMatrixMultiply(a,b,n);
+
+    m->recurse(0, n, 0, n);
+    m->printMatrix();
+
     if(printM) {
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
