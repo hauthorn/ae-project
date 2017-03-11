@@ -19,8 +19,8 @@ unsigned int* v = new unsigned int[size];
 int main() {
     vector<BaseHeap*> algorithms(0);
     algorithms.push_back(new Heap);
-    algorithms.push_back(new QueueHeap);
     algorithms.push_back(new KaryHeap(4));
+    algorithms.push_back(new QueueHeap);
 
     unsigned seed = (unsigned int) std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
@@ -33,9 +33,13 @@ int main() {
     }
 
     for (BaseHeap *h : algorithms) {
-        h->buildHeap(v, size);
-    }
+        unsigned int* local = new unsigned int[size];
+        for (int i = 0; i < size; ++i) {
+            local[i] = v[i];
+        }
 
+        h->buildHeap(local, size);
+    }
 
     // Do size extracts
     for (int j = 0; j < size; ++j) {

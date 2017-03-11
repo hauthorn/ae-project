@@ -11,11 +11,9 @@ using namespace std;
 
 class BaseHeap {
 protected:
-    unsigned int *array;
     unsigned int size_of_array;
     const unsigned int MAX_VALUE = numeric_limits<unsigned int>::max();
 
-protected:
     virtual void minHeapify(unsigned int i) = 0;
 
     virtual unsigned int parent(unsigned int index) = 0;
@@ -35,14 +33,16 @@ protected:
     }
 
 public:
+    unsigned int *array;
+
     virtual /**
      * Inserts the key at the bottom of the heap, and starts bubling up
      * @param key
      */
     void insert(unsigned int key) {
-        size_of_array++;
         array[size_of_array] = MAX_VALUE;
         heapDecreaseKey(size_of_array, key);
+        size_of_array++;
     }
 
     virtual unsigned int heapExtractMin() {
