@@ -8,6 +8,8 @@
 #include "KaryHeap.cpp"
 #include "QueueHeap.cpp"
 #include "TernaryHeap.cpp"
+#include "QuadHeap.cpp"
+#include "SevenHeap.cpp"
 
 #define NUM_EVENTS 1
 
@@ -70,6 +72,16 @@ int main(int argc, char *argv[]) {
                 cout << "Using ternary heap" << endl;
                 heap = new TernaryHeap();
                 algoName = "ternaryheap";
+            }
+            else if (string(argv[i + 1]) == "quadheap") {
+                cout << "Using quad heap" << endl;
+                heap = new QuadHeap();
+                algoName = "quadheap";
+            }
+            else if (string(argv[i + 1]) == "sevenheap") {
+                cout << "Using seven heap" << endl;
+                heap = new SevenHeap();
+                algoName = "sevenheap";
             }
         } else if (string(argv[i]) == "-n") {
             numberOfRuns = atoi(argv[i + 1]);
