@@ -1,5 +1,5 @@
 #include <iostream>
-#include "heap.cpp"
+#include "Binaryheap.cpp"
 #include <ctime>
 #include <fstream>
 #include "papi.h"
@@ -7,6 +7,7 @@
 #include <chrono>
 #include "KaryHeap.cpp"
 #include "QueueHeap.cpp"
+#include "TernaryHeap.cpp"
 
 #define NUM_EVENTS 1
 
@@ -64,6 +65,11 @@ int main(int argc, char *argv[]) {
                 cout << "Using queue heap" << endl;
                 heap = new QueueHeap();
                 algoName = "queueheap";
+            }
+            else if (string(argv[i + 1]) == "ternaryheap") {
+                cout << "Using ternary heap" << endl;
+                heap = new TernaryHeap();
+                algoName = "ternaryheap";
             }
         } else if (string(argv[i]) == "-n") {
             numberOfRuns = atoi(argv[i + 1]);

@@ -5,10 +5,10 @@
 #include <iostream>
 #include <random>
 #include <chrono>
-#include <queue>
-#include "heap.cpp"
+#include "Binaryheap.cpp"
 #include "QueueHeap.cpp"
 #include "KaryHeap.cpp"
+#include "TernaryHeap.cpp"
 
 
 using namespace std;
@@ -19,6 +19,7 @@ unsigned int* v = new unsigned int[size];
 int main() {
     vector<BaseHeap*> algorithms(0);
     algorithms.push_back(new BinaryHeap);
+    algorithms.push_back(new TernaryHeap);
     algorithms.push_back(new KaryHeap(4));
     algorithms.push_back(new QueueHeap);
 
