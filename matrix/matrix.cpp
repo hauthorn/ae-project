@@ -15,8 +15,7 @@ using namespace std;
  * @return
  */
 int **matrixMultiplySimple(int **a, int **b, int n) {
-    int** c = 0;
-    c = new int*[n];
+    int** c = new int*[n];
 
     for(int i=0; i < n; i++) {
         c[i] = new int[n];

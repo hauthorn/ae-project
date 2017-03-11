@@ -124,8 +124,6 @@ int main(int argc, char *argv[]) {
         int **a;
         int **b;
 
-
-
         int *a1;
 
         a1 = new int[j*j];
