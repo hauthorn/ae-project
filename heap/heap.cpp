@@ -41,6 +41,24 @@ protected:
 
 
 public:
+    unsigned int heapExtractMin() {
+        unsigned int min = array[0];
+        array[0] = array[size_of_array - 1];
+        size_of_array = size_of_array - 1;
+        minHeapify(0);
+        return min;
+    }
+
+    /**
+     * Inserts the key at the bottom of the heap, and starts bubling up
+     * @param key
+     */
+    void insert(unsigned int key) {
+        array[size_of_array] = MAX_VALUE;
+        heapDecreaseKey(size_of_array, key);
+        size_of_array++;
+    }
+
     /**
      * Constructs our heap from the array
      * @param array

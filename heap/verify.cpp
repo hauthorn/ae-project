@@ -13,14 +13,14 @@
 
 using namespace std;
 
-const unsigned int size = 10;
+const unsigned int size = 1000;
 unsigned int* v = new unsigned int[size];
 
 int main() {
     vector<BaseHeap*> algorithms(0);
     algorithms.push_back(new Heap);
     algorithms.push_back(new QueueHeap);
-//    algorithms.push_back(new KaryHeap(4));
+    algorithms.push_back(new KaryHeap(4));
 
     unsigned seed = (unsigned int) std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
@@ -37,8 +37,8 @@ int main() {
     }
 
 
-    // Do size / 2 extracts
-    for (int j = 0; j < size / 2; ++j) {
+    // Do size extracts
+    for (int j = 0; j < size; ++j) {
         unsigned int preResult = 0;
 
         for (BaseHeap *h : algorithms) {
@@ -55,8 +55,8 @@ int main() {
         }
     }
 
-    // Do size / 2 inserts
-    for (int k = 0; k < size / 2; ++k) {
+    // Do size inserts
+    for (int k = 0; k < size; ++k) {
         unsigned int value = (unsigned int) distribution(generator);
 
         for (BaseHeap *h : algorithms) {
@@ -64,8 +64,8 @@ int main() {
         }
     }
 
-    // Do size / extracts
-    for (int j = 0; j < size / 2; ++j) {
+    // Do size extracts
+    for (int j = 0; j < size; ++j) {
         unsigned int preResult = 0;
 
         for (BaseHeap *h : algorithms) {
