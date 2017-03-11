@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class Heap : public BaseHeap {
+class BinaryHeap : public BaseHeap {
 private:
     unsigned int left(unsigned int i) {
         return 2 * i + 1;

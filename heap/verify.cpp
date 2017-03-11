@@ -18,7 +18,7 @@ unsigned int* v = new unsigned int[size];
 
 int main() {
     vector<BaseHeap*> algorithms(0);
-    algorithms.push_back(new Heap);
+    algorithms.push_back(new BinaryHeap);
     algorithms.push_back(new KaryHeap(4));
     algorithms.push_back(new QueueHeap);
 
