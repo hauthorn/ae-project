@@ -23,7 +23,7 @@ protected:
 
         for (unsigned int i = 1; i <= K; ++i) {
             unsigned int c = child(index, i);
-            if (c < size_of_array && array[c] < array[index]) {
+            if (c < size_of_array && array[c] < array[smallest]) {
                 smallest = c;
             }
         }
@@ -44,6 +44,24 @@ protected:
 
 public:
     KaryHeap(unsigned int K) : K(K) {}
+
+    unsigned int heapExtractMin() {
+        unsigned int min = array[0];
+        array[0] = array[size_of_array - 1];
+        size_of_array = size_of_array - 1;
+        minHeapify(0);
+        return min;
+    }
+
+    /**
+     * Inserts the key at the bottom of the heap, and starts bubbling up
+     * @param key
+     */
+    void insert(unsigned int key) {
+        array[size_of_array] = MAX_VALUE;
+        heapDecreaseKey(size_of_array, key);
+        size_of_array++;
+    }
 
     void buildHeap(unsigned int *array, unsigned int size) {
         this->size_of_array = size;

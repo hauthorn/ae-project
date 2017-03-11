@@ -50,7 +50,7 @@ public:
     }
 
     /**
-     * Inserts the key at the bottom of the heap, and starts bubling up
+     * Inserts the key at the bottom of the heap, and starts bubbling up
      * @param key
      */
     void insert(unsigned int key) {
