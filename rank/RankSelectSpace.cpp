@@ -19,8 +19,8 @@ private:
      * find which superblock a given block is positioned in
      * @return
      */
-    double findS(int b) {
-        return floor(b/this->s);
+    unsigned long findS(unsigned long b) {
+        return b/this->s;
     }
 
     /**
@@ -28,8 +28,8 @@ private:
      * @param i
      * @return
      */
-    double findB(unsigned long i) {
-        return floor(i / this->b);
+    unsigned long findB(unsigned long i) {
+        return i / this->b;
     }
 
     double findIFromS(int s) {
@@ -45,7 +45,7 @@ public:
         this->v = v;
         //this->b = floor(log2(v.size()));
         //this->s = this->b*floor(log2(v.size()));
-        this->b = 128;
+        this->b = 32;
         this->s = 1024;
         // superblock j (with size s)
         // block k (with size b)
@@ -63,11 +63,7 @@ public:
 
             // loop through all blocks in superblock
             for(int k = 0; k < this->s; k++) {
-
-                // we want the rank up to this excluding current (first block is always zero)
                 // remember k = k*j
-                this->r_b.push_back(s2);
-
                 for(int i = 0; i < this->b; i++) {
                     if(this->v[index]) {
                         c++;
@@ -76,7 +72,7 @@ public:
                     index++;
                 }
 
-
+                this->r_b.push_back(s2);
             }
         }
     }
@@ -138,7 +134,7 @@ public:
 
         // first binary search for the superblock
         while(l <= r) {
-            m = floor((l+r)/2);
+            m = (l+r)/2;
 
             if(this->r_s.at(m) < i) {
                 // save this as closest
@@ -156,22 +152,25 @@ public:
             }
         }
 
+
         // l is where the superblock start, r is where it ends
         l = pS*this->s,
                 r = pS*this->s+this->s-1;
+
 
         unsigned long pB = 0;
 
         // second binary search for the block
         while(l <= r) {
-            m = floor((l+r)/2);
+
+            m = (l+r)/2;
 
             unsigned long i2 = this->r_b.at(m) + this->r_s.at(pS);
 
             if(i2 < i) {
                 // save this as closest
                 if(m > pB)
-                    pB = m-1;
+                    pB = m;
                 l = m+1;
             } else if(i2 > i) {
                 // look to the left
@@ -185,19 +184,10 @@ public:
 
         unsigned long i2 = this->r_b.at(pB) + this->r_s.at(pS);
 
-        pB=(pB)*this->b;
+        pB=(pB*this->b);
 
-        // find remaining
-        while(i2 < i) {
-            if(this->v.size() == pB)
-                return 0;
-            if(this->v.at(pB))
-                i2++;
+        for(int k = 0; k < )
 
-            pB++;
-        }
-
-
-        return pB+1;
+        return 0;
     }
 };

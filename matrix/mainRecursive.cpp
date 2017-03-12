@@ -1,5 +1,5 @@
 #include <iostream>
-#include "RankSelectSpace.cpp"
+#include "matrixrecursive.cpp"
 #include <ctime>
 #include <fstream>
 #include "papi.h"
@@ -11,9 +11,8 @@
 using namespace std;
 using namespace std::chrono;
 
-const int N = 900;
-unsigned int MAX = 10000;
-vector<bool> X;
+const int N = 10;
+unsigned int MAX = 4096;
 
 int main(int argc, char *argv[]) {
     int events[NUM_EVENTS];
@@ -31,12 +30,14 @@ int main(int argc, char *argv[]) {
     string fileName = to_string(ms.count());
 
 
-    string algoName = "rankSelectSpace";
+    // simple
+    string algoName = "matrixRecursive";
+
     int numberOfRuns = 1;
 
-    string q = "rank";
-
     string measure_label;
+
+    int dimension = 2;
 
     for (int i = 1; i <= argc; i += 2) {
         if (i + 1 >= argc)
@@ -90,15 +91,9 @@ int main(int argc, char *argv[]) {
             fileName = string(argv[i+1]);
         } else if (string(argv[i]) == "-max") {
             MAX = atol(argv[i+1]);
-        } else if(string(argv[i]) == "-q") {
-            // what to query for (rank og select)
-            if(string(argv[i+1]) == "select")
-                q = "select";
         }
 
-
     }
-    algoName = algoName +"_" +q;
 
     std::ofstream outfile;
 
@@ -114,18 +109,25 @@ int main(int argc, char *argv[]) {
     system(command.c_str());
 
 
-    for (unsigned int j = MAX; j > 0; j = j/2) {
-        X = vector<bool>();
+    for (unsigned int j = MAX; j > 1; j = j/2) {
+        int **a;
+        int **b;
+        int **c;
 
-        /**
-         * build array
-         */
-        for(int i = 0; i < j; i++)
-            X.push_back(rand()%2); // set to either true or false
+        // init matrices
+        a = new int *[j];
+        b = new int *[j];
+        c = new int *[j];
 
-        RankSelectSpace *s = new RankSelectSpace(X);
+        for(int i = 0; i < j; i++) {
+            a[i] = new int[j];
+            b[i] = new int[j];
+            c[i] = new int[j];
+        }
 
+        // fill matrices with random numbers
         cout << "Array size: " << j << endl;
+        cout << "Algorithm: " << algoName << " dimension " << dimension << endl;
 
         if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
             fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
@@ -133,36 +135,55 @@ int main(int argc, char *argv[]) {
 
         long_long cpuRead = 0;
 
-        unsigned long rank;
-        // Start timer
-        clock_t begin = clock();
+        int rank;
 
+        unsigned long elapsed_secs = 0;
 
         // Run algorithm numberOfRuns times
         for (unsigned int runs = 1; runs <= numberOfRuns; runs++) {
+            corners ai = {0,j,0,j};
+            corners bi = {0,j,0,j};
+            corners ci = {0,j,0,j};
+            //set(A,ai,2);
+            //set(B,bi,2);
+
+            // fill matrices with random numbers
+            randk(a,ai, 0, MAX);
+            randk(b,bi, 0, MAX);
+
+            set(c,ci,0); // set to zero before mult.
+
+            // empty papi counters before measuring multiply
+            if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
+                fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
+            }
+
+
+            // Start timer
+            typedef std::chrono::high_resolution_clock Clock;
+            auto begin = Clock::now();
+
+            // call algorithm
+            mul(a,b,c, ai, bi, ci);
+
 
             if (papi_enabled && (ret = PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK) {
                 fprintf(stderr, "PAPI failed to read counters: %s\n", PAPI_strerror(ret));
             }
 
-            unsigned long position = rand() % j;
-            if(q == "select")
-                rank += s->select2(position);
-            else
-                rank = s->rank(position);
+            elapsed_secs += chrono::duration_cast<chrono::nanoseconds>(Clock::now()-begin).count();
             cpuRead += values[0];
+
+            rank = c[1][1];
         }
 
-
-        // End timer
-        clock_t end = clock();
-
-        double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        double average_secs = elapsed_secs / numberOfRuns;
+        long average_secs = elapsed_secs / numberOfRuns;
         cpuRead = cpuRead / numberOfRuns;
+
         if(papi_enabled)
             cout << papi_label << ": " << cpuRead << endl;
-        cout << "rank" << rank;// just to make sure it is not skipped
+
+        cout << "out" << rank;// just to make sure it is not skipped by the compiler
         cout << endl;
 
         // Output to tsv file

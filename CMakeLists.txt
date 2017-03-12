@@ -19,9 +19,11 @@ add_executable(rankSelect ${SOURCE_FILES_RANK} rank/main.cpp fileutils/FileUtils
 add_executable(rankSelectVerify ${SOURCE_FILES_RANK} rank/verify.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
 add_executable(min_heap ${SOURCE_FILES_HEAP} heap/main.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
 add_executable(verify_heap ${SOURCE_FILES_HEAP} heap/verify.cpp)
-add_executable(matrixMultiply matrix/main.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
+add_executable(matrixMultiply matrix/main.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h matrix/matrixrecursive.cpp)
+add_executable(matrixRecursive matrix/mainRecursive.cpp fileutils/FileUtils.cpp fileutils/FileUtils.h)
 add_executable(verify_matrix_multiply matrix/verify.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
 target_link_libraries(matrixMultiply ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
 target_link_libraries(min_heap ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
+target_link_libraries(matrixRecursive ${PAPI_LIBRARIES} ${DOLFIN_LIBRARIES})
