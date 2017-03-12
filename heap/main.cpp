@@ -10,6 +10,10 @@
 #include "unfolded/TernaryHeap.cpp"
 #include "unfolded/QuadHeap.cpp"
 #include "unfolded/SevenHeap.cpp"
+#include "unfolded/EightHeap.cpp"
+#include "unfolded/NineHeap.cpp"
+#include "unfolded/TenHeap.cpp"
+#include "unfolded/ElevenHeap.cpp"
 
 #define NUM_EVENTS 1
 
@@ -82,6 +86,26 @@ int main(int argc, char *argv[]) {
                 cout << "Using seven heap" << endl;
                 heap = new SevenHeap();
                 algoName = "sevenheap";
+            }
+            else if (string(argv[i + 1]) == "eightheap") {
+                cout << "Using eight heap" << endl;
+                heap = new EightHeap();
+                algoName = "eightheap";
+            }
+            else if (string(argv[i + 1]) == "nineheap") {
+                cout << "Using nine heap" << endl;
+                heap = new NineHeap();
+                algoName = "nineheap";
+            }
+            else if (string(argv[i + 1]) == "tenheap") {
+                cout << "Using ten heap" << endl;
+                heap = new TenHeap();
+                algoName = "tenheap";
+            }
+            else if (string(argv[i + 1]) == "elevenheap") {
+                cout << "Using eleven heap" << endl;
+                heap = new ElevenHeap();
+                algoName = "elevenheap";
             }
         } else if (string(argv[i]) == "-n") {
             numberOfRuns = atoi(argv[i + 1]);
