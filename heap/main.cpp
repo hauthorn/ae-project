@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Binaryheap.cpp"
+#include "unfolded/Binaryheap.cpp"
 #include <ctime>
 #include <fstream>
 #include "papi.h"
@@ -7,9 +7,9 @@
 #include <chrono>
 #include "KaryHeap.cpp"
 #include "QueueHeap.cpp"
-#include "TernaryHeap.cpp"
-#include "QuadHeap.cpp"
-#include "SevenHeap.cpp"
+#include "unfolded/TernaryHeap.cpp"
+#include "unfolded/QuadHeap.cpp"
+#include "unfolded/SevenHeap.cpp"
 
 #define NUM_EVENTS 1
 

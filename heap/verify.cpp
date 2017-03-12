@@ -5,17 +5,21 @@
 #include <iostream>
 #include <random>
 #include <chrono>
-#include "Binaryheap.cpp"
+#include "unfolded/Binaryheap.cpp"
 #include "QueueHeap.cpp"
 #include "KaryHeap.cpp"
-#include "TernaryHeap.cpp"
-#include "QuadHeap.cpp"
-#include "SevenHeap.cpp"
+#include "unfolded/TernaryHeap.cpp"
+#include "unfolded/QuadHeap.cpp"
+#include "unfolded/SevenHeap.cpp"
+#include "unfolded/EightHeap.cpp"
+#include "unfolded/NineHeap.cpp"
+#include "unfolded/TenHeap.cpp"
+#include "unfolded/ElevenHeap.cpp"
 
 
 using namespace std;
 
-const unsigned int size = 1000;
+const unsigned int size = 10000;
 unsigned int* v = new unsigned int[size];
 
 int main() {
@@ -24,6 +28,10 @@ int main() {
     algorithms.push_back(new TernaryHeap);
     algorithms.push_back(new QuadHeap);
     algorithms.push_back(new SevenHeap);
+    algorithms.push_back(new EightHeap);
+    algorithms.push_back(new NineHeap);
+    algorithms.push_back(new TenHeap);
+    algorithms.push_back(new ElevenHeap);
     algorithms.push_back(new KaryHeap(4));
     algorithms.push_back(new QueueHeap);
 

@@ -1,34 +1,37 @@
 //
 // Created by hauthorn on 3/10/17.
 //
-#include "BaseHeap.cpp"
+#include "../BaseHeap.cpp"
 
-class TernaryHeap : public BaseHeap {
+class QuadHeap : public BaseHeap {
 private:
-    const unsigned int K = 3;
+    const unsigned int K = 4;
 protected:
     /**
-     * Compares the index to all it's 3 children, replacing with the smallest if smaller than index
+     * Compares the index to all it's 4 children, replacing with the smallest if smaller than index
      * @param array
      * @param i
      */
     void minHeapify(unsigned int index) {
         unsigned int smallest = index;
-
-        unsigned int l = K * index + 1;
-        unsigned int m = K * index + 2;
-        unsigned int r = K * index + 3;
-
         unsigned int indexVal = array[index];
 
-        if (l < size_of_array && array[l] < array[smallest]) {
-            smallest = l;
+        unsigned int c_1 = K * index + 1;
+        unsigned int c_2 = K * index + 2;
+        unsigned int c_3 = K * index + 3;
+        unsigned int c_4 = K * index + 4;
+
+        if (c_1 < size_of_array && array[c_1] < array[smallest]) {
+            smallest = c_1;
         }
-        if (m < size_of_array && array[m] < array[smallest]) {
-            smallest = m;
+        if (c_2 < size_of_array && array[c_2] < array[smallest]) {
+            smallest = c_2;
         }
-        if (r < size_of_array && array[r] < array[smallest]) {
-            smallest = r;
+        if (c_3 < size_of_array && array[c_3] < array[smallest]) {
+            smallest = c_3;
+        }
+        if (c_4 < size_of_array && array[c_4] < array[smallest]) {
+            smallest = c_4;
         }
 
         if (smallest != index) {
@@ -37,7 +40,6 @@ protected:
             minHeapify(smallest);
         }
     }
-
 
     unsigned int parent(unsigned int index) {
         return (index - 1) / K;

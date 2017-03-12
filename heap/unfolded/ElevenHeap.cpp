@@ -1,14 +1,14 @@
 //
 // Created by hauthorn on 3/10/17.
 //
-#include "BaseHeap.cpp"
+#include "../BaseHeap.cpp"
 
-class SevenHeap : public BaseHeap {
+class ElevenHeap : public BaseHeap {
 private:
-    const unsigned int K = 7;
+    const unsigned int K = 11;
 protected:
     /**
-     * Compares the index to all it's 7 children, replacing with the smallest if smaller than index
+     * Compares the index to all it's 11 children, replacing with the smallest if smaller than index
      * @param array
      * @param i
      */
@@ -23,6 +23,10 @@ protected:
         unsigned int c_5 = K * index + 5;
         unsigned int c_6 = K * index + 6;
         unsigned int c_7 = K * index + 7;
+        unsigned int c_8 = K * index + 8;
+        unsigned int c_9 = K * index + 9;
+        unsigned int c_10 = K * index + 10;
+        unsigned int c_11 = K * index + 11;
 
         if (c_1 < size_of_array && array[c_1] < array[smallest]) {
             smallest = c_1;
@@ -44,6 +48,18 @@ protected:
         }
         if (c_7 < size_of_array && array[c_7] < array[smallest]) {
             smallest = c_7;
+        }
+        if (c_8 < size_of_array && array[c_8] < array[smallest]) {
+            smallest = c_8;
+        }
+        if (c_9 < size_of_array && array[c_9] < array[smallest]) {
+            smallest = c_9;
+        }
+        if (c_10 < size_of_array && array[c_10] < array[smallest]) {
+            smallest = c_10;
+        }
+        if (c_11 < size_of_array && array[c_11] < array[smallest]) {
+            smallest = c_11;
         }
 
         if (smallest != index) {
