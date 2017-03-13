@@ -154,6 +154,7 @@ int *matrixOneDimensionTranspose(int *a, int *b, const int n) {
     int *t = new int[n*n]; // transposed matrix
     int *c = new int[n*n]; // result array
 
+    // ignore actual transpose
     transpose1d(b,t,n);
 
     for(int i=0; i < n; i++) {
@@ -207,9 +208,6 @@ public:
             // access actual matrices here
             this->c[x1][y1] = this->a[x1][y1]*this->b[x1][y1];
         } else {
-
-
-
             this->recurse(x1, x2/2, y1, y2/2);
             this->recurse(x2/2,x2,y1,y2/2);
             this->recurse(x1/2,x2/2,y2/2,y2);
