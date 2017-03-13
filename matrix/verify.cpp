@@ -12,7 +12,7 @@ int main() {
     bool printM = false;
 
     int **a, **b, *a1, *b1;
-    int n = 1024;
+    int n = 4096;
 
     a = new int *[n];
     b = new int *[n];

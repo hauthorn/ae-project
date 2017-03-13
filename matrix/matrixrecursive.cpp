@@ -83,3 +83,34 @@ void mul(int** A, int** B, int** C, corners a, corners b, corners c) {
     mul( A, B, C, aii[1][0], bii[0][1], cii[1][1] );
     mul( A, B, C, aii[1][1], bii[1][1], cii[1][1] );
 }
+
+//int main() {
+//    int j = 4096;
+//    int **a,**b,**c;
+//
+//    a = new int*[j];
+//    b = new int*[j];
+//    c = new int*[j];
+//
+//    for(int i = 0; i < j; i++) {
+//        a[i] = new int[j];
+//        b[i] = new int[j];
+//        c[i] = new int[j];
+//    }
+//
+//    corners ai = {0,j,0,j};
+//    corners bi = {0,j,0,j};
+//    corners ci = {0,j,0,j};
+//    //set(A,ai,2);
+//    //set(B,bi,2);
+//
+//    // fill matrices with random numbers
+//    randk(a,ai, 0, j);
+//    randk(b,bi, 0, j);
+//
+//    set(c,ci,0); // set to zero before mult.
+//
+//    mul(a,b,c,ai,bi,ci);
+//
+//    return 0;
+//}
