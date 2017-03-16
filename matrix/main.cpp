@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
                 dimension = 1;
             } else if(string(argv[i+1]) == "simpleWithTransposed") {
                 algoName = "simpleWithTransposed";
-            } else if(string(argv[i+1]) == "") {
+            } else if(string(argv[i+1]) == "matrixTile") {
                 algoName = "matrixTile";
                 dimension = 1;
             }

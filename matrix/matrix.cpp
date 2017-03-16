@@ -251,7 +251,7 @@ int* matrixTile(int *a, int *b, int n) {
                 for (x = i; x < std::min( i + incr, n ); x++) {
                     for (y = j; y < std::min( j + incr, n ); y++) {
                         for (z = k; z < std::min( k + incr, n ); z++) {
-                            c[ x * n + y ] +=  a[ x * n + z ] * b[ z * n  + y  ];
+                            c[ x * n + y ] +=  a[ x * n + z ] * temp[ y * n  + z  ];
                         }
                     }
                 }
