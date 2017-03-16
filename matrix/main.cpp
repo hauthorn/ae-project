@@ -102,6 +102,9 @@ int main(int argc, char *argv[]) {
                 dimension = 1;
             } else if(string(argv[i+1]) == "simpleWithTransposed") {
                 algoName = "simpleWithTransposed";
+            } else if(string(argv[i+1]) == "") {
+                algoName = "matrixTile";
+                dimension = 1;
             }
         }
 
@@ -122,7 +125,7 @@ int main(int argc, char *argv[]) {
     system(command.c_str());
 
 
-    for (unsigned int j = MAX; j > 1; j = j/2) {
+    for (unsigned int j = MAX; j > 99; j = j-100) {
         int **a;
         int **b;
 
@@ -206,6 +209,8 @@ int main(int argc, char *argv[]) {
 
             } else if(algoName == "simpleWithTransposed") {
                 c = matrixMultiplySimpleWithTransposed(a,b,j);
+            } else if(algoName == "matrixTile") {
+                c1 = matrixTile(a1,b1,j);
             } else {
                 // simple
                 c = matrixMultiplySimple(a,b,j);

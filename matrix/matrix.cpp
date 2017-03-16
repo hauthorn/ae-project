@@ -225,3 +225,39 @@ public:
         }
     }
 };
+
+int* matrixTile(int *a, int *b, int n) {
+    int *temp;
+
+    int *c = new int[n*n];
+
+    temp = new int[n*n];
+
+// transposition of b
+    for(int i = 0; i < n; ++i){
+        for (int j = 0; j < n; ++j) {
+            temp[i*n+j] = b[j*n+i];
+        }
+    }
+
+
+    int i,j,k,x,y,z;
+
+    int incr = 64;
+    for (i = 0; i < n; i += incr) {
+        for (j = 0; j < n; j += incr) {
+            c[i*n+j] = 0;
+            for (k = 0; k < n; k += incr) {
+                for (x = i; x < std::min( i + incr, n ); x++) {
+                    for (y = j; y < std::min( j + incr, n ); y++) {
+                        for (z = k; z < std::min( k + incr, n ); z++) {
+                            c[ x * n + y ] +=  a[ x * n + z ] * b[ z * n  + y  ];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return c;
+}

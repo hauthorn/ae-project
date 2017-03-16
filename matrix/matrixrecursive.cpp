@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <cstdlib>
-
+#include <algorithm>
 /**
  * represents the corners of the matrix
  */
@@ -114,3 +114,4 @@ void mul(int** A, int** B, int** C, corners a, corners b, corners c) {
 //
 //    return 0;
 //}
+

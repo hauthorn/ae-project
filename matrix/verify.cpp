@@ -12,7 +12,7 @@ int main() {
     bool printM = false;
 
     int **a, **b, *a1, *b1;
-    int n = 4096;
+    int n = 100;
 
     a = new int *[n];
     b = new int *[n];
@@ -90,6 +90,7 @@ int main() {
     int **r2 = matrixMultiplySimpleTranspose(a,b,n);
     int *r3 = matrixOneDimension(a1,b1,n);
     int *r4 = matrixOneDimensionTranspose(a1,b1,n);
+    int *r5 = matrixTile(a1,b1,n);
 
 
 
@@ -110,13 +111,13 @@ int main() {
             if(r3[(i*n)+j] != r4[(i*n)+j]) {
                 cout << "algorithm 3 and 4 varies" << endl;
             }
+
+            if(r4[(i*n)+j] != r5[(i*n)+j]) {
+                cout << "algorithm 4 and 5 varies" << endl;
+            }
         }
     }
 
-    SquareMatrixMultiply *m = new SquareMatrixMultiply(a,b,n);
-
-    m->recurse(0, n, 0, n);
-    m->printMatrix();
 
     if(printM) {
         for(int i = 0; i < n; i++) {
