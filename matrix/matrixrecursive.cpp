@@ -13,23 +13,14 @@
  */
 typedef struct { int ra, rb, ca, cb; } corners; // for tracking rows and columns.
 
-// set A[a] = k
-void set(int **A, corners a, int k){
-    int i, j;
-    for(i=a.ra;i<a.rb;i++)
-        for(j=a.ca;j<a.cb;j++)
-            A[i][j] = k;
-}
 
-// set A[a] = [random(l..h)].
-void randk(int **A, corners a, int l, int h){
-    int i,j;
-    for(i=a.ra;i<a.rb;i++)
-        for(j=a.ca;j<a.cb;j++)
-            A[i][j] = l + rand()% h;
-}
-
-// Return 1/4 of the int**rix: top/bottom , left/right.
+/**
+ * divide the matrix into four smaller parts
+ * @param a
+ * @param i
+ * @param j
+ * @param b
+ */
 void find_corners(corners a, int i, int j, corners *b) {
     int rm = a.ra + (a.rb - a.ra)/2;
     int cm = a.ca + (a.cb - a.ca)/2;
@@ -40,7 +31,15 @@ void find_corners(corners a, int i, int j, corners *b) {
     else       b->ca = cm;     // right cols
 }
 
-// Naive Multiply: A[a] * B[b] => C[c], recursively.
+/**
+ *
+ * @param A
+ * @param B
+ * @param C
+ * @param a
+ * @param b
+ * @param c
+ */
 void mul(int** A, int** B, int** C, corners a, corners b, corners c) {
     corners aii[2][2], bii[2][2], cii[2][2];
     int i, j, m, n, p;
@@ -56,7 +55,7 @@ void mul(int** A, int** B, int** C, corners a, corners b, corners c) {
         return;
     }
 
-    // Create the smaller int**rices:
+    // find the corners of the matrices
     for(i=0;i<2;i++) {
         for(j=0;j<2;j++) {
             find_corners(a, i, j, &aii[i][j]);
@@ -65,53 +64,17 @@ void mul(int** A, int** B, int** C, corners a, corners b, corners c) {
         }
     }
 
-    // Now do the 8 sub int**rix multiplications.
-    // C00 = A00*B00 + A01*B10
-    // C01 = A00*B01 + A01*B11
-    // C10 = A10*B00 + A11*B10
-    // C11 = A10*B01 + A11*B11
 
+    // C00 = A00*B00 + A01*B10
     mul( A, B, C, aii[0][0], bii[0][0], cii[0][0] );
     mul( A, B, C, aii[0][1], bii[1][0], cii[0][0] );
-
+    // C01 = A00*B01 + A01*B11
     mul( A, B, C, aii[0][0], bii[0][1], cii[0][1] );
     mul( A, B, C, aii[0][1], bii[1][1], cii[0][1] );
-
+    // C10 = A10*B00 + A11*B10
     mul( A, B, C, aii[1][0], bii[0][0], cii[1][0] );
     mul( A, B, C, aii[1][1], bii[1][0], cii[1][0] );
-
+    // C11 = A10*B01 + A11*B11
     mul( A, B, C, aii[1][0], bii[0][1], cii[1][1] );
     mul( A, B, C, aii[1][1], bii[1][1], cii[1][1] );
 }
-
-//int main() {
-//    int j = 4096;
-//    int **a,**b,**c;
-//
-//    a = new int*[j];
-//    b = new int*[j];
-//    c = new int*[j];
-//
-//    for(int i = 0; i < j; i++) {
-//        a[i] = new int[j];
-//        b[i] = new int[j];
-//        c[i] = new int[j];
-//    }
-//
-//    corners ai = {0,j,0,j};
-//    corners bi = {0,j,0,j};
-//    corners ci = {0,j,0,j};
-//    //set(A,ai,2);
-//    //set(B,bi,2);
-//
-//    // fill matrices with random numbers
-//    randk(a,ai, 0, j);
-//    randk(b,bi, 0, j);
-//
-//    set(c,ci,0); // set to zero before mult.
-//
-//    mul(a,b,c,ai,bi,ci);
-//
-//    return 0;
-//}
-
