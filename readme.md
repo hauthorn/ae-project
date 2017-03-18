@@ -9,6 +9,7 @@ Then install gnuplot.
 You are now good to go.
 
 ## Run
+See the run_it_x.sh (where x is the name of the project and iteration) scripts to generate the output we used.
 
 ## Verifying the algorithms
 Run the "Verify" target using CMake.
